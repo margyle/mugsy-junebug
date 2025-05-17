@@ -1,6 +1,6 @@
-import { Link } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router';
 
-export default function Header() {
+export default function Navbar() {
   return (
     <header className="p-2 flex gap-2 bg-white text-black justify-between">
       <nav className="flex flex-row">
@@ -26,5 +26,5 @@ export default function Header() {
         </div>
       </nav>
     </header>
-  )
+  );
 }

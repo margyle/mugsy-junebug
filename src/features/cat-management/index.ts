@@ -1,21 +1,11 @@
-// Components
-export { CatList } from './CatList'
+// Types
+export type { Cat } from './cats.types';
 
 // Hooks
-export {
-  useCatsList,
-  useCatDetails,
-  useCreateCat,
-  useUpdateCat,
-  useDeleteCat,
-} from './cats.hooks'
+export { useCatsList, useCatDetails, useCreateCat, useUpdateCat, useDeleteCat } from './cats.hooks';
 
 // API Functions & Types
-export {
-  getCats,
-  getCatById,
-  createCat,
-  updateCat,
-  deleteCat,
-  type Cat,
-} from './cats.api'
+export { getCats, getCat, createCat, updateCat, deleteCat } from './cats.api';
+
+// Components
+export { CatList } from './CatList';

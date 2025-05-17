@@ -1,40 +1,38 @@
-import { api } from '@/lib/api-config'
-
-// Types
-export interface Cat {
-  id: string
-  name: string
-  type: string
-  createdAt?: string
-  updatedAt?: string
-}
+import { api } from '@/lib/api-config';
+import type { Cat } from './cats.types';
 
 // Get all cats
-export async function getCats(): Promise<Cat[]> {
-  return api.get<Cat[]>('/api/v1/cats/')
-}
+export const getCats = async (): Promise<Cat[]> => {
+  try {
+    console.log('Fetching cats...');
+    const response = await api.get<Cat[]>('cats');
+    console.log('Cats response:', response);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching cats:', error);
+    throw error;
+  }
+};
 
 // Get cat by ID
-export async function getCatById(id: string): Promise<Cat> {
-  return api.get<Cat>(`/api/v1/cats/${id}`)
-}
+export const getCat = async (id: string): Promise<Cat> => {
+  const response = await api.get<Cat>(`cats/${id}`);
+  return response.data;
+};
 
 // Create new cat
-export async function createCat(
-  catData: Omit<Cat, 'id' | 'createdAt' | 'updatedAt'>,
-): Promise<Cat> {
-  return api.post<Cat>('/api/v1/cats/', catData)
-}
+export const createCat = async (cat: Omit<Cat, 'id'>): Promise<Cat> => {
+  const response = await api.post<Cat>('cats', cat);
+  return response.data;
+};
 
 // Update existing cat
-export async function updateCat(
-  id: string,
-  catData: Partial<Omit<Cat, 'id' | 'createdAt' | 'updatedAt'>>,
-): Promise<Cat> {
-  return api.put<Cat>(`/api/v1/cats/${id}`, catData)
-}
+export const updateCat = async (id: string, cat: Partial<Cat>): Promise<Cat> => {
+  const response = await api.put<Cat>(`cats/${id}`, cat);
+  return response.data;
+};
 
 // Delete cat
-export async function deleteCat(id: string): Promise<void> {
-  return api.delete(`/api/v1/cats/${id}`)
-}
+export const deleteCat = async (id: string): Promise<void> => {
+  await api.delete(`cats/${id}`);
+};
