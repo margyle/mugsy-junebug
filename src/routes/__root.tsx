@@ -13,13 +13,11 @@ interface RouterContext {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
-    <>
+    <div className="container mx-auto">
       <Navbar />
-
       <Outlet />
       <TanStackRouterDevtools />
-
       <TanStackQueryLayout />
-    </>
+    </div>
   ),
 });
