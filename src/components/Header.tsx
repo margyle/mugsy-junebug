@@ -18,6 +18,12 @@ export default function Header() {
         <div className="px-2 font-bold">
           <Link to="/demo/jotai">Jotai</Link>
         </div>
+        <div className="px-2 font-bold">
+          <Link to="/demo/shadcn">Shadcn</Link>
+        </div>
+        <div className="px-2 font-bold">
+          <Link to="/cats">Cats</Link>
+        </div>
       </nav>
     </header>
   )

@@ -11,12 +11,20 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as CatsImport } from './routes/cats'
 import { Route as IndexImport } from './routes/index'
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
 import { Route as DemoTableImport } from './routes/demo.table'
+import { Route as DemoShadcnImport } from './routes/demo.shadcn'
 import { Route as DemoJotaiImport } from './routes/demo.jotai'
 
 // Create/Update Routes
+
+const CatsRoute = CatsImport.update({
+  id: '/cats',
+  path: '/cats',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -33,6 +41,12 @@ const DemoTanstackQueryRoute = DemoTanstackQueryImport.update({
 const DemoTableRoute = DemoTableImport.update({
   id: '/demo/table',
   path: '/demo/table',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DemoShadcnRoute = DemoShadcnImport.update({
+  id: '/demo/shadcn',
+  path: '/demo/shadcn',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,11 +67,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/cats': {
+      id: '/cats'
+      path: '/cats'
+      fullPath: '/cats'
+      preLoaderRoute: typeof CatsImport
+      parentRoute: typeof rootRoute
+    }
     '/demo/jotai': {
       id: '/demo/jotai'
       path: '/demo/jotai'
       fullPath: '/demo/jotai'
       preLoaderRoute: typeof DemoJotaiImport
+      parentRoute: typeof rootRoute
+    }
+    '/demo/shadcn': {
+      id: '/demo/shadcn'
+      path: '/demo/shadcn'
+      fullPath: '/demo/shadcn'
+      preLoaderRoute: typeof DemoShadcnImport
       parentRoute: typeof rootRoute
     }
     '/demo/table': {
@@ -81,14 +109,18 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cats': typeof CatsRoute
   '/demo/jotai': typeof DemoJotaiRoute
+  '/demo/shadcn': typeof DemoShadcnRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cats': typeof CatsRoute
   '/demo/jotai': typeof DemoJotaiRoute
+  '/demo/shadcn': typeof DemoShadcnRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
@@ -96,30 +128,55 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/cats': typeof CatsRoute
   '/demo/jotai': typeof DemoJotaiRoute
+  '/demo/shadcn': typeof DemoShadcnRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/demo/jotai' | '/demo/table' | '/demo/tanstack-query'
+  fullPaths:
+    | '/'
+    | '/cats'
+    | '/demo/jotai'
+    | '/demo/shadcn'
+    | '/demo/table'
+    | '/demo/tanstack-query'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo/jotai' | '/demo/table' | '/demo/tanstack-query'
-  id: '__root__' | '/' | '/demo/jotai' | '/demo/table' | '/demo/tanstack-query'
+  to:
+    | '/'
+    | '/cats'
+    | '/demo/jotai'
+    | '/demo/shadcn'
+    | '/demo/table'
+    | '/demo/tanstack-query'
+  id:
+    | '__root__'
+    | '/'
+    | '/cats'
+    | '/demo/jotai'
+    | '/demo/shadcn'
+    | '/demo/table'
+    | '/demo/tanstack-query'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CatsRoute: typeof CatsRoute
   DemoJotaiRoute: typeof DemoJotaiRoute
+  DemoShadcnRoute: typeof DemoShadcnRoute
   DemoTableRoute: typeof DemoTableRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CatsRoute: CatsRoute,
   DemoJotaiRoute: DemoJotaiRoute,
+  DemoShadcnRoute: DemoShadcnRoute,
   DemoTableRoute: DemoTableRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
@@ -135,7 +192,9 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/cats",
         "/demo/jotai",
+        "/demo/shadcn",
         "/demo/table",
         "/demo/tanstack-query"
       ]
@@ -143,8 +202,14 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
+    "/cats": {
+      "filePath": "cats.tsx"
+    },
     "/demo/jotai": {
       "filePath": "demo.jotai.tsx"
+    },
+    "/demo/shadcn": {
+      "filePath": "demo.shadcn.tsx"
     },
     "/demo/table": {
       "filePath": "demo.table.tsx"
