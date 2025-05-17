@@ -11,8 +11,11 @@ import {
   DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
 import { Smile, Settings, Bell } from 'lucide-react';
-
+import { useTheme } from '@/contexts/theme-provider/theme-provider';
+import { themes } from '@/common/themeSwitcher/themesList';
 export default function Navbar() {
+  const { setTheme } = useTheme();
+
   const appName = 'Mugsy';
   return (
     <nav className="w-full">
@@ -69,13 +72,13 @@ export default function Navbar() {
               <DropdownMenuSeparator />
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Theme</DropdownMenuSubTrigger>
-                {/* <DropdownMenuSubContent>
+                <DropdownMenuSubContent>
                   {themes.map((t) => (
                     <DropdownMenuItem key={t} onClick={() => setTheme(t)}>
                       {t}
                     </DropdownMenuItem>
                   ))}
-                </DropdownMenuSubContent> */}
+                </DropdownMenuSubContent>
               </DropdownMenuSub>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -86,31 +89,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-}
-
-{
-  /*     <header className="p-2 flex gap-2 bg-white text-black justify-between">
-      <nav className="flex flex-row">
-        <div className="px-2 font-bold">
-          <Link to="/">Home</Link>
-        </div>
-
-        <div className="px-2 font-bold">
-          <Link to="/demo/table">TanStack Table</Link>
-        </div>
-
-        <div className="px-2 font-bold">
-          <Link to="/demo/tanstack-query">TanStack Query</Link>
-        </div>
-        <div className="px-2 font-bold">
-          <Link to="/demo/jotai">Jotai</Link>
-        </div>
-        <div className="px-2 font-bold">
-          <Link to="/demo/shadcn">Shadcn</Link>
-        </div>
-        <div className="px-2 font-bold">
-          <Link to="/cats">Cats</Link>
-        </div>
-      </nav>
-    </header> */
 }
