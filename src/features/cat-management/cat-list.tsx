@@ -1,48 +1,37 @@
-import { Button } from '@/components/ui/button'
-import { useCatsList, useCreateCat, useDeleteCat } from './cats.hooks'
-import { useState } from 'react'
-import type { Cat } from './cats.api'
-import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button';
+import { useCatsList, useCreateCat, useDeleteCat } from './cats.hooks';
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+} from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function CatList() {
   // Use individual hooks
-  const { data: cats = [], isLoading, isError, error } = useCatsList()
+  const { data: cats = [], isLoading, isError, error } = useCatsList();
 
-  const {
-    mutate: createCat,
-    isPending: isCreating,
-    error: createError,
-  } = useCreateCat()
+  const { mutate: createCat, isPending: isCreating, error: createError } = useCreateCat();
 
-  const {
-    mutate: deleteCat,
-    isPending: isDeleting,
-    error: deleteError,
-  } = useDeleteCat()
+  const { mutate: deleteCat, isPending: isDeleting, error: deleteError } = useDeleteCat();
 
-  const [isAddingCat, setIsAddingCat] = useState(false)
-  const [newCatName, setNewCatName] = useState('')
-  const [newCatType, setNewCatType] = useState('persian')
+  const [isAddingCat, setIsAddingCat] = useState(false);
+  const [newCatName, setNewCatName] = useState('');
+  const [newCatType, setNewCatType] = useState('persian');
 
-  if (isLoading) return <div className="py-8 text-center">Loading cats...</div>
+  if (isLoading) return <div className="py-8 text-center">Loading cats...</div>;
 
   if (isError) {
     return (
       <div className="py-8 text-center">
         <div className="text-red-500 mb-2">Error loading cats</div>
-        <div className="text-sm text-gray-600">
-          {error?.message || 'Unknown error occurred'}
-        </div>
+        <div className="text-sm text-gray-600">{error?.message || 'Unknown error occurred'}</div>
       </div>
-    )
+    );
   }
 
   const handleAddCat = () => {
@@ -50,21 +39,17 @@ export function CatList() {
       createCat({
         name: newCatName.trim(),
         type: newCatType,
-      })
-      setNewCatName('')
-      setIsAddingCat(false)
+      });
+      setNewCatName('');
+      setIsAddingCat(false);
     }
-  }
+  };
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Cats</h2>
-        <Button
-          size="sm"
-          onClick={() => setIsAddingCat(true)}
-          disabled={isAddingCat}
-        >
+        <Button size="sm" onClick={() => setIsAddingCat(true)} disabled={isAddingCat}>
           Add Cat
         </Button>
       </div>
@@ -119,11 +104,7 @@ export function CatList() {
                 </Select>
               </div>
               <div className="flex justify-end gap-2 mt-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIsAddingCat(false)}
-                >
+                <Button variant="outline" size="sm" onClick={() => setIsAddingCat(false)}>
                   Cancel
                 </Button>
                 <Button
@@ -169,10 +150,7 @@ export function CatList() {
             ))}
             {cats.length === 0 && (
               <tr>
-                <td
-                  colSpan={3}
-                  className="p-4 text-center text-muted-foreground"
-                >
+                <td colSpan={3} className="p-4 text-center text-muted-foreground">
                   No cats found
                 </td>
               </tr>
@@ -181,5 +159,5 @@ export function CatList() {
         </table>
       </div>
     </div>
-  )
+  );
 }

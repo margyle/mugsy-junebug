@@ -1,32 +1,32 @@
-import { atom, useAtom } from 'jotai'
+import { atom, useAtom } from 'jotai';
 
 // Basic atoms
-export const countAtom = atom(0)
-export const nameAtom = atom('Guest')
+export const countAtom = atom(0);
+export const nameAtom = atom('Guest');
 
 // Derived atom (computed state)
 export const greetingAtom = atom(
-  (get) => `Hello, ${get(nameAtom)}! You clicked ${get(countAtom)} times.`,
-)
+  (get) => `Hello, ${get(nameAtom)}! You clicked ${get(countAtom)} times.`
+);
 
 // Atom with write function
 export const doubleCountAtom = atom(
   (get) => get(countAtom) * 2,
   (get, set, newValue: number) => {
     // When setting doubleCountAtom, we actually set countAtom to half the value
-    set(countAtom, newValue / 2)
-  },
-)
+    set(countAtom, newValue / 2);
+  }
+);
 
 // Demo component
 export function JotaiDemo() {
-  const [count, setCount] = useAtom(countAtom)
-  const [name, setName] = useAtom(nameAtom)
-  const [greeting] = useAtom(greetingAtom)
-  const [doubleCount, setDoubleCount] = useAtom(doubleCountAtom)
+  const [count, setCount] = useAtom(countAtom);
+  const [name, setName] = useAtom(nameAtom);
+  const [greeting] = useAtom(greetingAtom);
+  const [doubleCount, setDoubleCount] = useAtom(doubleCountAtom);
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 ">
       <h1 className="text-2xl font-bold">Jotai Demo</h1>
 
       <div className="space-y-2">
@@ -62,5 +62,5 @@ export function JotaiDemo() {
         </div>
       </div>
     </div>
-  )
+  );
 }

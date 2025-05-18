@@ -16,10 +16,10 @@ import { themes } from '@/common/themeSwitcher/themesList';
 export default function Navbar() {
   const { setTheme } = useTheme();
 
-  const appName = 'Mugsy';
+  const appName = 'mugsy';
   return (
     <nav className="w-full">
-      <div className="w-[96%] mx-auto h-16 flex items-center justify-between">
+      <div className="mx-auto h-16 flex items-center justify-between">
         <div className="text-xl font-semibold">
           {appName}: <a className="text-primary">recipes</a>
         </div>
@@ -38,34 +38,21 @@ export default function Navbar() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Help</DropdownMenuItem>
               <DropdownMenuItem>Logout</DropdownMenuItem>
-              {/* routes to navlinks */}
               <DropdownMenuSeparator />
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Examples</DropdownMenuSubTrigger>
-                {/* <DropdownMenuSubContent>
-                  {routes
-                    .filter((route) => route.addToDropdown)
-                    .map((route) => (
-                      <DropdownMenuItem
-                        key={route.label}
-                        onClick={() => handleNavigate(route.path)}
-                      >
-                        {route.label}
-                      </DropdownMenuItem>
-                    ))}
-                </DropdownMenuSubContent> */}
                 <DropdownMenuSubContent>
                   <DropdownMenuItem>
                     <Link to="/cats">Cats</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link to="/demo/table">TanStack Table</Link>
+                    <Link to="/examples/table">TanStack Table</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link to="/demo/tanstack-query">TanStack Query</Link>
+                    <Link to="/examples/tanstack-query">TanStack Query</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link to="/demo/jotai">Jotai</Link>
+                    <Link to="/examples/jotai">Jotai</Link>
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>

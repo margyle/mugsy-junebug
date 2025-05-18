@@ -8,4 +8,4 @@ export { useCatsList, useCatDetails, useCreateCat, useUpdateCat, useDeleteCat } 
 export { getCats, getCat, createCat, updateCat, deleteCat } from './cats.api';
 
 // Components
-export { CatList } from './CatList';
+export { CatList } from './cat-list';

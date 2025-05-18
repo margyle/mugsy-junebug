@@ -1,13 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { JotaiDemo } from '../contexts/jotai/demo';
+import { JotaiDemo } from '../../contexts/jotai/demo';
 
-export const Route = createFileRoute('/demo/jotai')({
+export const Route = createFileRoute('/examples/jotai')({
   component: JotaiDemoPage,
 });
 
 function JotaiDemoPage() {
   return (
-    <div className="container mx-auto py-8">
+    <div className="mx-auto py-8">
       <JotaiDemo />
     </div>
   );

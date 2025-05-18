@@ -11,20 +11,14 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as CatsImport } from './routes/cats'
 import { Route as IndexImport } from './routes/index'
-import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
-import { Route as DemoTableImport } from './routes/demo.table'
-import { Route as DemoShadcnImport } from './routes/demo.shadcn'
-import { Route as DemoJotaiImport } from './routes/demo.jotai'
+import { Route as CatsIndexImport } from './routes/cats/index'
+import { Route as ExamplesTanstackQueryImport } from './routes/examples/tanstack-query'
+import { Route as ExamplesTableImport } from './routes/examples/table'
+import { Route as ExamplesShadcnImport } from './routes/examples/shadcn'
+import { Route as ExamplesJotaiImport } from './routes/examples/jotai'
 
 // Create/Update Routes
-
-const CatsRoute = CatsImport.update({
-  id: '/cats',
-  path: '/cats',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -32,27 +26,33 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DemoTanstackQueryRoute = DemoTanstackQueryImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
+const CatsIndexRoute = CatsIndexImport.update({
+  id: '/cats/',
+  path: '/cats/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const DemoTableRoute = DemoTableImport.update({
-  id: '/demo/table',
-  path: '/demo/table',
+const ExamplesTanstackQueryRoute = ExamplesTanstackQueryImport.update({
+  id: '/examples/tanstack-query',
+  path: '/examples/tanstack-query',
   getParentRoute: () => rootRoute,
 } as any)
 
-const DemoShadcnRoute = DemoShadcnImport.update({
-  id: '/demo/shadcn',
-  path: '/demo/shadcn',
+const ExamplesTableRoute = ExamplesTableImport.update({
+  id: '/examples/table',
+  path: '/examples/table',
   getParentRoute: () => rootRoute,
 } as any)
 
-const DemoJotaiRoute = DemoJotaiImport.update({
-  id: '/demo/jotai',
-  path: '/demo/jotai',
+const ExamplesShadcnRoute = ExamplesShadcnImport.update({
+  id: '/examples/shadcn',
+  path: '/examples/shadcn',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ExamplesJotaiRoute = ExamplesJotaiImport.update({
+  id: '/examples/jotai',
+  path: '/examples/jotai',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,39 +67,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/cats': {
-      id: '/cats'
+    '/examples/jotai': {
+      id: '/examples/jotai'
+      path: '/examples/jotai'
+      fullPath: '/examples/jotai'
+      preLoaderRoute: typeof ExamplesJotaiImport
+      parentRoute: typeof rootRoute
+    }
+    '/examples/shadcn': {
+      id: '/examples/shadcn'
+      path: '/examples/shadcn'
+      fullPath: '/examples/shadcn'
+      preLoaderRoute: typeof ExamplesShadcnImport
+      parentRoute: typeof rootRoute
+    }
+    '/examples/table': {
+      id: '/examples/table'
+      path: '/examples/table'
+      fullPath: '/examples/table'
+      preLoaderRoute: typeof ExamplesTableImport
+      parentRoute: typeof rootRoute
+    }
+    '/examples/tanstack-query': {
+      id: '/examples/tanstack-query'
+      path: '/examples/tanstack-query'
+      fullPath: '/examples/tanstack-query'
+      preLoaderRoute: typeof ExamplesTanstackQueryImport
+      parentRoute: typeof rootRoute
+    }
+    '/cats/': {
+      id: '/cats/'
       path: '/cats'
       fullPath: '/cats'
-      preLoaderRoute: typeof CatsImport
-      parentRoute: typeof rootRoute
-    }
-    '/demo/jotai': {
-      id: '/demo/jotai'
-      path: '/demo/jotai'
-      fullPath: '/demo/jotai'
-      preLoaderRoute: typeof DemoJotaiImport
-      parentRoute: typeof rootRoute
-    }
-    '/demo/shadcn': {
-      id: '/demo/shadcn'
-      path: '/demo/shadcn'
-      fullPath: '/demo/shadcn'
-      preLoaderRoute: typeof DemoShadcnImport
-      parentRoute: typeof rootRoute
-    }
-    '/demo/table': {
-      id: '/demo/table'
-      path: '/demo/table'
-      fullPath: '/demo/table'
-      preLoaderRoute: typeof DemoTableImport
-      parentRoute: typeof rootRoute
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryImport
+      preLoaderRoute: typeof CatsIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -109,76 +109,76 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/cats': typeof CatsRoute
-  '/demo/jotai': typeof DemoJotaiRoute
-  '/demo/shadcn': typeof DemoShadcnRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/examples/jotai': typeof ExamplesJotaiRoute
+  '/examples/shadcn': typeof ExamplesShadcnRoute
+  '/examples/table': typeof ExamplesTableRoute
+  '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
+  '/cats': typeof CatsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/cats': typeof CatsRoute
-  '/demo/jotai': typeof DemoJotaiRoute
-  '/demo/shadcn': typeof DemoShadcnRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/examples/jotai': typeof ExamplesJotaiRoute
+  '/examples/shadcn': typeof ExamplesShadcnRoute
+  '/examples/table': typeof ExamplesTableRoute
+  '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
+  '/cats': typeof CatsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/cats': typeof CatsRoute
-  '/demo/jotai': typeof DemoJotaiRoute
-  '/demo/shadcn': typeof DemoShadcnRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/examples/jotai': typeof ExamplesJotaiRoute
+  '/examples/shadcn': typeof ExamplesShadcnRoute
+  '/examples/table': typeof ExamplesTableRoute
+  '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
+  '/cats/': typeof CatsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/examples/jotai'
+    | '/examples/shadcn'
+    | '/examples/table'
+    | '/examples/tanstack-query'
     | '/cats'
-    | '/demo/jotai'
-    | '/demo/shadcn'
-    | '/demo/table'
-    | '/demo/tanstack-query'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/examples/jotai'
+    | '/examples/shadcn'
+    | '/examples/table'
+    | '/examples/tanstack-query'
     | '/cats'
-    | '/demo/jotai'
-    | '/demo/shadcn'
-    | '/demo/table'
-    | '/demo/tanstack-query'
   id:
     | '__root__'
     | '/'
-    | '/cats'
-    | '/demo/jotai'
-    | '/demo/shadcn'
-    | '/demo/table'
-    | '/demo/tanstack-query'
+    | '/examples/jotai'
+    | '/examples/shadcn'
+    | '/examples/table'
+    | '/examples/tanstack-query'
+    | '/cats/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CatsRoute: typeof CatsRoute
-  DemoJotaiRoute: typeof DemoJotaiRoute
-  DemoShadcnRoute: typeof DemoShadcnRoute
-  DemoTableRoute: typeof DemoTableRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  ExamplesJotaiRoute: typeof ExamplesJotaiRoute
+  ExamplesShadcnRoute: typeof ExamplesShadcnRoute
+  ExamplesTableRoute: typeof ExamplesTableRoute
+  ExamplesTanstackQueryRoute: typeof ExamplesTanstackQueryRoute
+  CatsIndexRoute: typeof CatsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CatsRoute: CatsRoute,
-  DemoJotaiRoute: DemoJotaiRoute,
-  DemoShadcnRoute: DemoShadcnRoute,
-  DemoTableRoute: DemoTableRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  ExamplesJotaiRoute: ExamplesJotaiRoute,
+  ExamplesShadcnRoute: ExamplesShadcnRoute,
+  ExamplesTableRoute: ExamplesTableRoute,
+  ExamplesTanstackQueryRoute: ExamplesTanstackQueryRoute,
+  CatsIndexRoute: CatsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -192,30 +192,30 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/cats",
-        "/demo/jotai",
-        "/demo/shadcn",
-        "/demo/table",
-        "/demo/tanstack-query"
+        "/examples/jotai",
+        "/examples/shadcn",
+        "/examples/table",
+        "/examples/tanstack-query",
+        "/cats/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/cats": {
-      "filePath": "cats.tsx"
+    "/examples/jotai": {
+      "filePath": "examples/jotai.tsx"
     },
-    "/demo/jotai": {
-      "filePath": "demo.jotai.tsx"
+    "/examples/shadcn": {
+      "filePath": "examples/shadcn.tsx"
     },
-    "/demo/shadcn": {
-      "filePath": "demo.shadcn.tsx"
+    "/examples/table": {
+      "filePath": "examples/table.tsx"
     },
-    "/demo/table": {
-      "filePath": "demo.table.tsx"
+    "/examples/tanstack-query": {
+      "filePath": "examples/tanstack-query.tsx"
     },
-    "/demo/tanstack-query": {
-      "filePath": "demo.tanstack-query.tsx"
+    "/cats/": {
+      "filePath": "cats/index.tsx"
     }
   }
 }

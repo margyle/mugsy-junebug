@@ -15,9 +15,11 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <div className="container mx-auto">
       <Navbar />
-      <Outlet />
-      <TanStackRouterDevtools />
-      <TanStackQueryLayout />
+      <main className="w-full">
+        <Outlet />
+        <TanStackRouterDevtools />
+        <TanStackQueryLayout />
+      </main>
     </div>
   ),
 });

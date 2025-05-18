@@ -1,11 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { CatList } from '@/features/cat-management';
-import logo from '../logo.svg';
+import { Lander } from '@/features/lander/lander';
 
 export const Route = createFileRoute('/')({
   component: App,
 });
 
 function App() {
-  return <div className="text-center">Hello</div>;
+  return <Lander title="Hello" items={['item1', 'item2', 'item3']} />;
 }
