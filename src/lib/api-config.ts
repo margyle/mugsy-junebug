@@ -8,7 +8,7 @@ import axios, {
 // API configuration
 export const API_BASE_URL = 'http://localhost:3000/api/v1/';
 
-// Get auth token from environment variables
+//todo: temp workaround until auth and all env implemented
 const AUTH_TOKEN = import.meta.env.VITE_AUTH_TOKEN || '';
 
 // Debug log
@@ -47,7 +47,7 @@ axiosInstance.interceptors.request.use(
 // Response interceptor
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
-    // You can add response logging here
+    //todo:response logging here
     return response;
   },
   (error: AxiosError) => {

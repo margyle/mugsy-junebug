@@ -81,7 +81,7 @@ export function useDeleteCat() {
       // Return context for rollback on error
       return { previousCats };
     },
-    onError: (err, catId, context) => {
+    onError: (err, _catId, context) => {
       // If mutation fails, roll back to previous state
       queryClient.setQueryData(['cats'], context?.previousCats);
       console.error('Failed to delete cat:', err);
