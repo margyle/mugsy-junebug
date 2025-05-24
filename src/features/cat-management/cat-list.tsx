@@ -12,7 +12,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function CatList() {
-  // Use individual hooks
   const { data: cats = [], isLoading, isError, error } = useCatsList();
 
   const { mutate: createCat, isPending: isCreating, error: createError } = useCreateCat();

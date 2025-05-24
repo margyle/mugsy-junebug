@@ -1,22 +1,16 @@
-// Define the props interface
-interface ChangeMeProps {
-  title: string;
-  items: string[];
-}
+import CoffeeNowCard from './coffee-now-card/coffee-now-card';
 
-// Update the component to accept the props
-export const Lander: React.FC<ChangeMeProps> = ({ title, items }) => {
-  // Log the props to the console
-  console.log('NavBar Props:', { title, items });
-
+export const Lander: React.FC = () => {
   return (
-    <div>
-      <h1>Lander: {title}</h1>
-      <ul>
-        {items.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+    <div className="w-full">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-6 md:gap-6">
+        <div className="md:col-start-2 md:col-span-2">
+          <CoffeeNowCard />
+        </div>
+        <div className="md:col-start-4 md:col-span-2">
+          <CoffeeNowCard />
+        </div>
+      </div>
     </div>
   );
 };

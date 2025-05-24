@@ -26,7 +26,7 @@ export function JotaiDemo() {
   const [doubleCount, setDoubleCount] = useAtom(doubleCountAtom);
 
   return (
-    <div className="p-4 ">
+    <div className="p-4 space-y-4">
       <h1 className="text-2xl font-bold">Jotai Demo</h1>
 
       <div className="space-y-2">

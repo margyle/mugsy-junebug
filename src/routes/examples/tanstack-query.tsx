@@ -1,20 +1,19 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/examples/tanstack-query')({
   component: TanStackQueryDemo,
-})
+});
 
 function TanStackQueryDemo() {
   const { data } = useQuery({
     queryKey: ['people'],
-    queryFn: () =>
-      Promise.resolve([{ name: 'John Doe' }, { name: 'Jane Doe' }]),
+    queryFn: () => Promise.resolve([{ name: 'John Doe' }, { name: 'Jane Doe' }]),
     initialData: [],
-  })
+  });
 
   return (
-    <div className="p-4">
+    <div className="w-full">
       <h1 className="text-2xl mb-4">People list</h1>
       <ul>
         {data.map((person) => (
@@ -22,5 +21,5 @@ function TanStackQueryDemo() {
         ))}
       </ul>
     </div>
-  )
+  );
 }

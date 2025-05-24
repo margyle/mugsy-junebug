@@ -7,7 +7,7 @@ export const Route = createFileRoute('/examples/jotai')({
 
 function JotaiDemoPage() {
   return (
-    <div className="mx-auto py-8">
+    <div className="w-full">
       <JotaiDemo />
     </div>
   );

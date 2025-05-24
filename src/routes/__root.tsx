@@ -13,9 +13,9 @@ interface RouterContext {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
-    <div className="container mx-auto">
+    <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="w-full">
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <Outlet />
         <TanStackRouterDevtools />
         <TanStackQueryLayout />

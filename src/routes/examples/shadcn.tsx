@@ -1,13 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
+import { createFileRoute } from '@tanstack/react-router';
+import { Button } from '@/components/ui/button';
 
 export const Route = createFileRoute('/examples/shadcn')({
   component: ShadcnDemo,
-})
+});
 
 function ShadcnDemo() {
   return (
-    <div className="container mx-auto py-8 space-y-8">
+    <div className="w-full space-y-8">
       <h1 className="text-3xl font-bold">Shadcn Components Demo</h1>
 
       <div className="space-y-4">
@@ -32,5 +32,5 @@ function ShadcnDemo() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -6,5 +6,5 @@ export const Route = createFileRoute('/')({
 });
 
 function App() {
-  return <Lander title="Hello" items={['item1', 'item2', 'item3']} />;
+  return <Lander />;
 }

@@ -7,9 +7,9 @@ export const Route = createFileRoute('/cats/')({
 
 function CatsPage() {
   return (
-    <div className="py-8">
+    <div className="w-full">
       <h1 className="text-3xl font-bold mb-6">Cat Management</h1>
-      <div className="border p-6 rounded-lg">
+      <div className="border p-6 rounded-lg bg-card">
         <CatList />
       </div>
     </div>
