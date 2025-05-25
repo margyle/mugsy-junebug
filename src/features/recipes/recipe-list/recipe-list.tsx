@@ -24,28 +24,45 @@ export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) 
 
   return (
     <div className="w-full">
-      <Carousel
-        opts={{
-          align: 'start',
-          loop: false,
-        }}
-        className="w-full max-w-5xl mx-auto -mt-4"
-      >
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex gap-2">
-            <CarouselPrevious className="static translate-y-0" />
-            <CarouselNext className="static translate-y-0" />
-          </div>
-        </div>
-
-        <CarouselContent className="-ml-4">
+      {/* Mobile: Simple vertical stack */}
+      <div className="md:hidden px-0">
+        <div className="space-y-6">
           {recipes.map((recipe, index) => (
-            <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3 mb-6">
+            <div key={index} className="overflow-visible">
               <RecipeCard recipe={recipe} onClick={onRecipeClick} />
-            </CarouselItem>
+            </div>
           ))}
-        </CarouselContent>
-      </Carousel>
+        </div>
+      </div>
+
+      {/* Desktop: Horizontal carousel */}
+      <div className="hidden md:block">
+        <Carousel
+          opts={{
+            align: 'start',
+            loop: false,
+          }}
+          className="w-full max-w-5xl mx-auto -mt-4"
+        >
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex gap-2">
+              <CarouselPrevious className="static translate-y-0" />
+              <CarouselNext className="static translate-y-0" />
+            </div>
+          </div>
+
+          <CarouselContent>
+            {recipes.map((recipe, index) => (
+              <CarouselItem
+                key={index}
+                className="pl-4 md:basis-1/2 lg:basis-1/3 mb-6 overflow-visible"
+              >
+                <RecipeCard recipe={recipe} onClick={onRecipeClick} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
     </div>
   );
 }
