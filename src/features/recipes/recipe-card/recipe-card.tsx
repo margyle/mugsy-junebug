@@ -47,7 +47,7 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
 
   return (
     <Card
-      className="w-full cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-50"
+      className="w-full cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl"
       onClick={handleClick}
       tabIndex={0}
       onKeyDown={(e) => {
