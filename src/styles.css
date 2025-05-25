@@ -184,4 +184,13 @@ code {
   .font-bebas {
     font-family: var(--font-bebas);
   }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
