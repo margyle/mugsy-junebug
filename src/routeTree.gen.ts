@@ -11,8 +11,8 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as RecipesImport } from './routes/recipes'
 import { Route as IndexImport } from './routes/index'
+import { Route as RecipesIndexImport } from './routes/recipes/index'
 import { Route as CatsIndexImport } from './routes/cats/index'
 import { Route as ExamplesTanstackQueryImport } from './routes/examples/tanstack-query'
 import { Route as ExamplesTableImport } from './routes/examples/table'
@@ -21,15 +21,15 @@ import { Route as ExamplesJotaiImport } from './routes/examples/jotai'
 
 // Create/Update Routes
 
-const RecipesRoute = RecipesImport.update({
-  id: '/recipes',
-  path: '/recipes',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RecipesIndexRoute = RecipesIndexImport.update({
+  id: '/recipes/',
+  path: '/recipes/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -74,13 +74,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/recipes': {
-      id: '/recipes'
-      path: '/recipes'
-      fullPath: '/recipes'
-      preLoaderRoute: typeof RecipesImport
-      parentRoute: typeof rootRoute
-    }
     '/examples/jotai': {
       id: '/examples/jotai'
       path: '/examples/jotai'
@@ -116,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatsIndexImport
       parentRoute: typeof rootRoute
     }
+    '/recipes/': {
+      id: '/recipes/'
+      path: '/recipes'
+      fullPath: '/recipes'
+      preLoaderRoute: typeof RecipesIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -123,84 +123,84 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/recipes': typeof RecipesRoute
   '/examples/jotai': typeof ExamplesJotaiRoute
   '/examples/shadcn': typeof ExamplesShadcnRoute
   '/examples/table': typeof ExamplesTableRoute
   '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
   '/cats': typeof CatsIndexRoute
+  '/recipes': typeof RecipesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/recipes': typeof RecipesRoute
   '/examples/jotai': typeof ExamplesJotaiRoute
   '/examples/shadcn': typeof ExamplesShadcnRoute
   '/examples/table': typeof ExamplesTableRoute
   '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
   '/cats': typeof CatsIndexRoute
+  '/recipes': typeof RecipesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/recipes': typeof RecipesRoute
   '/examples/jotai': typeof ExamplesJotaiRoute
   '/examples/shadcn': typeof ExamplesShadcnRoute
   '/examples/table': typeof ExamplesTableRoute
   '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
   '/cats/': typeof CatsIndexRoute
+  '/recipes/': typeof RecipesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/recipes'
     | '/examples/jotai'
     | '/examples/shadcn'
     | '/examples/table'
     | '/examples/tanstack-query'
     | '/cats'
+    | '/recipes'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/recipes'
     | '/examples/jotai'
     | '/examples/shadcn'
     | '/examples/table'
     | '/examples/tanstack-query'
     | '/cats'
+    | '/recipes'
   id:
     | '__root__'
     | '/'
-    | '/recipes'
     | '/examples/jotai'
     | '/examples/shadcn'
     | '/examples/table'
     | '/examples/tanstack-query'
     | '/cats/'
+    | '/recipes/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  RecipesRoute: typeof RecipesRoute
   ExamplesJotaiRoute: typeof ExamplesJotaiRoute
   ExamplesShadcnRoute: typeof ExamplesShadcnRoute
   ExamplesTableRoute: typeof ExamplesTableRoute
   ExamplesTanstackQueryRoute: typeof ExamplesTanstackQueryRoute
   CatsIndexRoute: typeof CatsIndexRoute
+  RecipesIndexRoute: typeof RecipesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  RecipesRoute: RecipesRoute,
   ExamplesJotaiRoute: ExamplesJotaiRoute,
   ExamplesShadcnRoute: ExamplesShadcnRoute,
   ExamplesTableRoute: ExamplesTableRoute,
   ExamplesTanstackQueryRoute: ExamplesTanstackQueryRoute,
   CatsIndexRoute: CatsIndexRoute,
+  RecipesIndexRoute: RecipesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -214,19 +214,16 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/recipes",
         "/examples/jotai",
         "/examples/shadcn",
         "/examples/table",
         "/examples/tanstack-query",
-        "/cats/"
+        "/cats/",
+        "/recipes/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/recipes": {
-      "filePath": "recipes.tsx"
     },
     "/examples/jotai": {
       "filePath": "examples/jotai.tsx"
@@ -242,6 +239,9 @@ export const routeTree = rootRoute
     },
     "/cats/": {
       "filePath": "cats/index.tsx"
+    },
+    "/recipes/": {
+      "filePath": "recipes/index.tsx"
     }
   }
 }

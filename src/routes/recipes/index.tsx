@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { RecipeList } from '@/features/recipes';
 import { mockRecipes } from '@/data/mock-recipes';
 
-export const Route = createFileRoute('/recipes')({
+export const Route = createFileRoute('/recipes/')({
   component: RecipesPage,
 });
 
