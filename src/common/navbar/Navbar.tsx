@@ -34,7 +34,7 @@ export default function Navbar() {
                 <Settings className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="bg-background/95">
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Help</DropdownMenuItem>
@@ -42,7 +42,7 @@ export default function Navbar() {
               <DropdownMenuSeparator />
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Examples</DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
+                <DropdownMenuSubContent className="bg-background/95" sideOffset={10}>
                   <DropdownMenuItem>
                     <Link to="/cats">Cats</Link>
                   </DropdownMenuItem>
@@ -60,7 +60,7 @@ export default function Navbar() {
               <DropdownMenuSeparator />
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Theme</DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
+                <DropdownMenuSubContent className="bg-background/95" sideOffset={10}>
                   {themes.map((t) => (
                     <DropdownMenuItem key={t} onClick={() => setTheme(t)}>
                       {t}
