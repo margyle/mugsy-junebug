@@ -10,7 +10,6 @@ export const Lander: React.FC = () => {
         </div>
         <div className="md:col-start-5 md:col-span-3">
           <EverythingElseCard />
-          {/* <CoffeeNowCard /> */}
         </div>
       </div>
     </div>

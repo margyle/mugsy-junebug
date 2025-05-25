@@ -1,4 +1,4 @@
-import { Link, useLocation } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -13,18 +13,26 @@ import {
 import { Smile, Settings, Bell } from 'lucide-react';
 import { useTheme } from '@/contexts/theme-provider/theme-provider';
 import { themes } from '@/common/themeSwitcher/themesList';
+import { useNavbarTitle } from '@/hooks/useNavbarTitle';
 
 export default function Navbar() {
   const { setTheme } = useTheme();
-  // TODO: move app name to app config
-  const appName = 'mugsy';
-  const location = useLocation();
+  const { appName, view } = useNavbarTitle();
   console.log(location);
+
   return (
     <nav className="w-full bg-background ">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="text-xl font-semibold">
-          {appName}: <a className="text-primary">recipes</a>
+          <span>
+            <Link to="/">{appName}</Link>
+          </span>
+          {view && (
+            <>
+              <span>: </span>
+              <span className="text-primary">{view}</span>
+            </>
+          )}
         </div>
         <div className="flex items-center space-x-2 sm:space-x-4">
           <Button variant="outline" size="icon" className="hidden sm:flex">
