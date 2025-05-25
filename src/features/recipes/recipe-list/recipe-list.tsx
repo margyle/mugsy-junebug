@@ -27,15 +27,15 @@ export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) 
       {/* Mobile: Simple vertical stack */}
       <div className="md:hidden px-0">
         <div className="space-y-6">
-          {recipes.map((recipe, index) => (
-            <div key={index} className="overflow-visible">
+          {recipes.map((recipe) => (
+            <div key={recipe.id} className="overflow-visible">
               <RecipeCard recipe={recipe} onClick={onRecipeClick} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Desktop: Horizontal carousel */}
+      {/* Mugsy and desktop: Horizontal carousel */}
       <div className="hidden md:block">
         <Carousel
           opts={{
@@ -52,9 +52,9 @@ export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) 
           </div>
 
           <CarouselContent>
-            {recipes.map((recipe, index) => (
+            {recipes.map((recipe) => (
               <CarouselItem
-                key={index}
+                key={recipe.id}
                 className="pl-4 md:basis-1/2 lg:basis-1/3 mb-6 overflow-visible"
               >
                 <RecipeCard recipe={recipe} onClick={onRecipeClick} />
