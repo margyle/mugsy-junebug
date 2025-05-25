@@ -1,5 +1,7 @@
 import type { Recipe } from '@/features/recipes/recipe-card/recipe-card';
 
+// TODO: This mock data is not related to the values we will display in a recipe card and was just a quick way to confirm layout with icons and breaks.
+
 export const mockRecipes: Recipe[] = [
   {
     id: '1',
