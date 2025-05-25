@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useLocation } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -18,8 +18,10 @@ export default function Navbar() {
   const { setTheme } = useTheme();
   // TODO: move app name to app config
   const appName = 'mugsy';
+  const location = useLocation();
+  console.log(location);
   return (
-    <nav className="w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="w-full bg-background ">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="text-xl font-semibold">
           {appName}: <a className="text-primary">recipes</a>

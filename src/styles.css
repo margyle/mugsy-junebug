@@ -90,7 +90,7 @@ code {
   --accent: oklch(0.21 0.01 88.79);
   --accent-foreground: oklch(0.97 0.01 93.49);
   --destructive: oklch(0.64 0.21 25.39);
-  --border: oklch(0.36 0.01 106.85);
+  --border: oklch(0.36 0.01 0.85);
   --input: oklch(0.43 0.01 99.03);
   --ring: oklch(0.59 0.17 252.92);
   --chart-1: oklch(0.56 0.13 42.95);

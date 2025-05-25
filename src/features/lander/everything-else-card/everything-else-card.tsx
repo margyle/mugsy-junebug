@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Heart } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
-export default function CoffeeNowCard() {
+export default function EverythingElseCard() {
   const [isBrewing, setIsBrewing] = useState(false);
 
   const handleClick = () => {
@@ -15,7 +15,7 @@ export default function CoffeeNowCard() {
     <Card
       className={`w-full cursor-pointer transition-all duration-300 shadow-lg
         hover:shadow-xl
-         ${isBrewing ? 'border-success/25' : 'hover:bg-50'}`}
+        ${isBrewing ? 'border-success/25' : 'hover:bg-50'}`}
       onClick={handleClick}
       tabIndex={0}
       onKeyDown={(e) => {
@@ -29,8 +29,8 @@ export default function CoffeeNowCard() {
     >
       <CardContent className="p-4 relative flex flex-col items-start text-left">
         <div className="text-6xl font-medium flex flex-col items-start font-bebas">
-          <span>{isBrewing ? 'Brewing' : 'Coffee'}</span>
-          <span>{isBrewing ? 'Now' : 'Now'}</span>
+          <span>{isBrewing ? 'Brewing' : 'Everything'}</span>
+          <span>{isBrewing ? 'Now' : 'else'}</span>
         </div>
 
         <Separator className="my-4 w-full" />
