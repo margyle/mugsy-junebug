@@ -57,6 +57,9 @@ export default function Navbar() {
                     <Link to="/cats">Cats</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
+                    <Link to="/recipes">Recipes</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
                     <Link to="/examples/table">TanStack Table</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
