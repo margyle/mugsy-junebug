@@ -57,7 +57,7 @@ export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) 
                 key={recipe.id}
                 className="pl-4 md:basis-1/2 lg:basis-1/3 mb-6 overflow-visible"
               >
-                <RecipeCard recipe={recipe} onClick={onRecipeClick} />
+                <RecipeCard recipe={recipe} onClick={() => onRecipeClick?.(recipe)} />
               </CarouselItem>
             ))}
           </CarouselContent>

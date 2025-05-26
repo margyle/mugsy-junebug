@@ -1,12 +1,13 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock, Users, Coffee } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { formatTime } from '@/utils/helpers';
 
 export interface Recipe {
   id: string;
   title: string;
   description: string;
-  cookTime: number; // in minutes
+  brewTime: number; // in minutes
   servings: number;
   strength: 'Light' | 'Medium' | 'Dark';
   imageUrl?: string;
@@ -23,6 +24,7 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
     onClick?.(recipe);
   };
 
+  // TODO: add theme colors for these
   const getStrengthColor = (strength: Recipe['strength']) => {
     switch (strength) {
       case 'Light':
@@ -34,15 +36,6 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
       default:
         return 'text-gray-600 bg-gray-50';
     }
-  };
-
-  const formatTime = (minutes: number) => {
-    if (minutes >= 60) {
-      const hours = Math.floor(minutes / 60);
-      const remainingMinutes = minutes % 60;
-      return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
-    }
-    return `${minutes}m`;
   };
 
   return (
@@ -89,15 +82,15 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
         {/* Recipe Info */}
         <div className="space-y-2 w-full">
           <div className="flex items-start gap-2">
-            <Clock className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
-            <span className="text-sm">Brew time: {formatTime(recipe.cookTime)}</span>
+            <Clock className="h-5 w-4 text-primary flex-shrink-0" />
+            <span className="text-sm">Brew time: {formatTime(recipe.brewTime)}</span>
           </div>
           <div className="flex items-start gap-2">
-            <Users className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
+            <Users className="h-5 w-4 text-primary flex-shrink-0" />
             <span className="text-sm">Serves: {recipe.servings}</span>
           </div>
           <div className="flex items-start gap-2">
-            <Coffee className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
+            <Coffee className="h-5 w-4 text-primary flex-shrink-0" />
             <span className="text-sm">Method: {recipe.tags[0] || 'Pour Over'}</span>
           </div>
         </div>
