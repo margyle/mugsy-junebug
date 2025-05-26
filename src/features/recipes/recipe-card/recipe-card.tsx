@@ -23,6 +23,7 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
     onClick?.(recipe);
   };
 
+  // TODO: add theme colors for these
   const getStrengthColor = (strength: Recipe['strength']) => {
     switch (strength) {
       case 'Light':
@@ -89,15 +90,15 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
         {/* Recipe Info */}
         <div className="space-y-2 w-full">
           <div className="flex items-start gap-2">
-            <Clock className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
+            <Clock className="h-5 w-4 text-primary flex-shrink-0" />
             <span className="text-sm">Brew time: {formatTime(recipe.cookTime)}</span>
           </div>
           <div className="flex items-start gap-2">
-            <Users className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
+            <Users className="h-5 w-4 text-primary flex-shrink-0" />
             <span className="text-sm">Serves: {recipe.servings}</span>
           </div>
           <div className="flex items-start gap-2">
-            <Coffee className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
+            <Coffee className="h-5 w-4 text-primary flex-shrink-0" />
             <span className="text-sm">Method: {recipe.tags[0] || 'Pour Over'}</span>
           </div>
         </div>

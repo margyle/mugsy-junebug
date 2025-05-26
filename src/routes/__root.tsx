@@ -2,6 +2,7 @@ import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
 import Navbar from '../common/navbar/Navbar.tsx';
+import { Toaster } from '@/components/ui/sonner';
 
 import TanStackQueryLayout from '../contexts/tanstack-query/layout.tsx';
 
@@ -22,6 +23,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       {/* Main content with top padding on mobile to account for fixed navbar */}
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:pt-6 pt-20">
         <Outlet />
+        <Toaster position="top-center" />
         {/* <TanStackRouterDevtools />
         <TanStackQueryLayout /> */}
       </main>
