@@ -21,8 +21,8 @@ export default function Navbar() {
   console.log(location);
 
   return (
-    <nav className="w-full bg-background ">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <nav className="w-full bg-background/98">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between md:shadow-none shadow-sm">
         <div className="text-xl font-semibold">
           <span>
             <Link to="/">{appName}</Link>
