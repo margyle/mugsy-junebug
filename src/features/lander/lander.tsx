@@ -1,5 +1,5 @@
-import CoffeeNowCard from './coffee-now-card/coffee-now-card';
-import EverythingElseCard from './everything-else-card/everything-else-card';
+import { CoffeeNowCard } from './coffee-now-card/coffee-now-card';
+import { EverythingElseCard } from './everything-else-card/everything-else-card';
 
 export const Lander: React.FC = () => {
   return (

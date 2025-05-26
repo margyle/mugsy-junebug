@@ -1,10 +1,20 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart } from 'lucide-react';
+import { Clock, Users, Coffee, Heart } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
-export default function CoffeeNowCard() {
+export const CoffeeNowCard: React.FC = () => {
   const [isBrewing, setIsBrewing] = useState(false);
+
+  // TODO: move formatTime from here and RecipeCard to a shared common file
+  const formatTime = (minutes: number) => {
+    if (minutes >= 60) {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
+    }
+    return `${minutes}m`;
+  };
 
   const handleClick = () => {
     setIsBrewing(!isBrewing);
@@ -37,23 +47,19 @@ export default function CoffeeNowCard() {
 
         <div className="space-y-2 w-full">
           <div className="flex items-start gap-2">
-            <Heart className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
-            <span>Recipe: Junebug</span>
+            <Clock className="h-5 w-4 text-primary flex-shrink-0" />
+            <span className="text-sm">Brew time: {formatTime(4)}</span>
           </div>
           <div className="flex items-start gap-2">
-            <Heart className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
-            <span>Recipe: Junebug</span>
+            <Users className="h-5 w-4 text-primary flex-shrink-0" />
+            <span className="text-sm">Serves: {1}</span>
           </div>
           <div className="flex items-start gap-2">
-            <Heart className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
-            <span>Recipe: Junebug</span>
-          </div>
-          <div className="flex items-start gap-2">
-            <Heart className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
-            <span>Recipe: Junebug</span>
+            <Coffee className="h-5 w-4 text-primary flex-shrink-0" />
+            <span className="text-sm">Method: {'Pour Over'}</span>
           </div>
         </div>
       </CardContent>
     </Card>
   );
-}
+};

@@ -6,7 +6,7 @@ export interface Recipe {
   id: string;
   title: string;
   description: string;
-  cookTime: number; // in minutes
+  brewTime: number; // in minutes
   servings: number;
   strength: 'Light' | 'Medium' | 'Dark';
   imageUrl?: string;
@@ -91,7 +91,7 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
         <div className="space-y-2 w-full">
           <div className="flex items-start gap-2">
             <Clock className="h-5 w-4 text-primary flex-shrink-0" />
-            <span className="text-sm">Brew time: {formatTime(recipe.cookTime)}</span>
+            <span className="text-sm">Brew time: {formatTime(recipe.brewTime)}</span>
           </div>
           <div className="flex items-start gap-2">
             <Users className="h-5 w-4 text-primary flex-shrink-0" />
