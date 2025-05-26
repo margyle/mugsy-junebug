@@ -2,18 +2,10 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock, Users, Coffee, Heart } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { formatTime } from '@/utils/helpers';
 
 export const EverythingElseCard: React.FC = () => {
   const [isBrewing, setIsBrewing] = useState(false);
-
-  const formatTime = (minutes: number) => {
-    if (minutes >= 60) {
-      const hours = Math.floor(minutes / 60);
-      const remainingMinutes = minutes % 60;
-      return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
-    }
-    return `${minutes}m`;
-  };
 
   const handleClick = () => {
     setIsBrewing(!isBrewing);

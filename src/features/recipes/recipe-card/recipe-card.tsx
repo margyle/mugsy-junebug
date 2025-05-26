@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock, Users, Coffee } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { formatTime } from '@/utils/helpers';
 
 export interface Recipe {
   id: string;
@@ -35,15 +36,6 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
       default:
         return 'text-gray-600 bg-gray-50';
     }
-  };
-
-  const formatTime = (minutes: number) => {
-    if (minutes >= 60) {
-      const hours = Math.floor(minutes / 60);
-      const remainingMinutes = minutes % 60;
-      return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
-    }
-    return `${minutes}m`;
   };
 
   return (
