@@ -6,7 +6,8 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import RecipeCard from '../recipe-card/recipe-card';
-import type { Recipe } from '../recipe-card/recipe-card';
+import type { Recipe } from '../recipes.types';
+import { useGetAllRecipes } from '../recipes.hooks';
 
 interface RecipeListProps {
   recipes: Recipe[];
@@ -14,6 +15,10 @@ interface RecipeListProps {
 }
 
 export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) {
+  const { data: recipesList = [], isLoading, isError, error } = useGetAllRecipes();
+
+  if (isLoading) return <div className="py-8 text-center">Loading recipes</div>;
+
   if (recipes.length === 0) {
     return (
       <div className="w-full text-center py-12">
@@ -52,7 +57,7 @@ export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) 
           </div>
 
           <CarouselContent>
-            {recipes.map((recipe) => (
+            {recipesList.map((recipe) => (
               <CarouselItem
                 key={recipe.id}
                 className="pl-4 md:basis-1/2 lg:basis-1/3 mb-6 overflow-visible"
