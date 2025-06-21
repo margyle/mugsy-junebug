@@ -11,7 +11,7 @@ function RecipesPage() {
   // TODO: update type from any to Recipe when we bring back that feature set
   const handleRecipeClick = (recipe: Recipe) => {
     console.log('Recipe clicked:', recipe);
-    toast.success(`${recipe.title} added to your list`, {
+    toast.success(`${recipe.name} added to your list`, {
       style: {
         border: '1px solid var(--purps)',
       },

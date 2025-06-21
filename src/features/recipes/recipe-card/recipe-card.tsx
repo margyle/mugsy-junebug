@@ -81,7 +81,7 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
           </div>
           <div className="flex items-start gap-2">
             <Coffee className="h-5 w-4 text-primary flex-shrink-0" />
-            <span className="text-sm">Method: {recipe.tags[0].name || 'Pour Over'}</span>
+            <span className="text-sm">Pour Pattern: Custom</span>
           </div>
         </div>
       </CardContent>
