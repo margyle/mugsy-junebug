@@ -10,16 +10,15 @@ import type { Recipe } from '../recipes.types';
 import { useGetAllRecipes } from '../recipes.hooks';
 
 interface RecipeListProps {
-  recipes: Recipe[];
   onRecipeClick?: (recipe: Recipe) => void;
 }
 
-export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) {
+export default function RecipeList({ onRecipeClick }: RecipeListProps) {
   const { data: recipesList = [], isLoading, isError, error } = useGetAllRecipes();
 
   if (isLoading) return <div className="py-8 text-center">Loading recipes</div>;
 
-  if (recipes.length === 0) {
+  if (recipesList.length === 0) {
     return (
       <div className="w-full text-center py-12">
         <p className="text-muted-foreground">No recipes found</p>
@@ -32,7 +31,7 @@ export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) 
       {/* Mobile: Simple vertical stack */}
       <div className="md:hidden px-0">
         <div className="space-y-6">
-          {recipes.map((recipe) => (
+          {recipesList.map((recipe) => (
             <div key={recipe.id} className="overflow-visible">
               <RecipeCard recipe={recipe} onClick={onRecipeClick} />
             </div>

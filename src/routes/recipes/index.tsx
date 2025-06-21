@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { RecipeList, type Recipe } from '@/features/recipes';
-import { mockRecipes } from '@/data/mock-recipes';
 import { toast } from 'sonner';
 
 export const Route = createFileRoute('/recipes/')({
@@ -21,7 +20,7 @@ function RecipesPage() {
 
   return (
     <div className="w-full space-y-8">
-      <RecipeList recipes={mockRecipes} onRecipeClick={handleRecipeClick} />
+      <RecipeList onRecipeClick={handleRecipeClick} />
     </div>
   );
 }
