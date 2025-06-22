@@ -2,17 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Clock, Users, Coffee } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { formatTime } from '@/utils/helpers';
-
-export interface Recipe {
-  id: string;
-  title: string;
-  description: string;
-  brewTime: number; // in minutes
-  servings: number;
-  strength: 'Light' | 'Medium' | 'Dark';
-  imageUrl?: string;
-  tags: string[];
-}
+import type { Recipe } from '@/features/recipes/recipes.types';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -54,22 +44,22 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
       <CardContent className="p-4 relative flex flex-col items-start text-left">
         {/* Title Section */}
         <div className="text-4xl font-medium flex flex-col items-start font-bebas mb-2">
-          <span>{recipe.title}</span>
+          <span>{recipe.name}</span>
         </div>
 
         {/* Strength Badge and Tags */}
         <div className="flex items-center gap-2 mb-3 flex-wrap">
           <div
-            className={`px-2 py-1 rounded-full text-xs font-medium ${getStrengthColor(recipe.strength)}`}
+            className={`px-2 py-1 rounded-full text-xs font-medium ${getStrengthColor('Light')}`}
           >
-            {recipe.strength}
+            Light
           </div>
           {recipe.tags.slice(1, 3).map((tag) => (
             <span
-              key={tag}
+              key={tag.id}
               className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md"
             >
-              {tag}
+              {tag.name}
             </span>
           ))}
         </div>
@@ -83,15 +73,15 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
         <div className="space-y-2 w-full">
           <div className="flex items-start gap-2">
             <Clock className="h-5 w-4 text-primary flex-shrink-0" />
-            <span className="text-sm">Brew time: {formatTime(recipe.brewTime)}</span>
+            <span className="text-sm">Brew time: {formatTime(recipe.brew_time)}</span>
           </div>
           <div className="flex items-start gap-2">
             <Users className="h-5 w-4 text-primary flex-shrink-0" />
-            <span className="text-sm">Serves: {recipe.servings}</span>
+            <span className="text-sm">Serves: {recipe.servings || 1}</span>
           </div>
           <div className="flex items-start gap-2">
             <Coffee className="h-5 w-4 text-primary flex-shrink-0" />
-            <span className="text-sm">Method: {recipe.tags[0] || 'Pour Over'}</span>
+            <span className="text-sm">Pour Pattern: Custom</span>
           </div>
         </div>
       </CardContent>

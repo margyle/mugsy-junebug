@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Clock, Users, Coffee, Heart } from 'lucide-react';
+import { Clock, Users, Coffee } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { formatTime } from '@/utils/helpers';
 

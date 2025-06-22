@@ -8,9 +8,11 @@
     "build": "vite build && tsc",
     "serve": "vite preview",
     "test": "vitest run",
-    "lint": "eslint",
-    "format": "prettier",
-    "check": "prettier --write . && eslint --fix"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0",
@@ -42,12 +44,19 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@tanstack/eslint-config": "^0.1.0",
+    "@eslint/js": "^9.29.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/parser": "^8.34.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "8",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "jsdom": "^26.0.0",
     "prettier": "^3.5.3",
     "typescript": "^5.7.2",

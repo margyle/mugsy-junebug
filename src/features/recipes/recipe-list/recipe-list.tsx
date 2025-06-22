@@ -6,15 +6,19 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import RecipeCard from '../recipe-card/recipe-card';
-import type { Recipe } from '../recipe-card/recipe-card';
+import type { Recipe } from '../recipes.types';
+import { useGetAllRecipes } from '../recipes.hooks';
 
 interface RecipeListProps {
-  recipes: Recipe[];
   onRecipeClick?: (recipe: Recipe) => void;
 }
 
-export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) {
-  if (recipes.length === 0) {
+export default function RecipeList({ onRecipeClick }: RecipeListProps) {
+  const { data: recipesList = [], isLoading } = useGetAllRecipes();
+
+  if (isLoading) return <div className="py-8 text-center">Loading recipes</div>;
+
+  if (recipesList.length === 0) {
     return (
       <div className="w-full text-center py-12">
         <p className="text-muted-foreground">No recipes found</p>
@@ -27,7 +31,7 @@ export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) 
       {/* Mobile: Simple vertical stack */}
       <div className="md:hidden px-0">
         <div className="space-y-6">
-          {recipes.map((recipe) => (
+          {recipesList.map((recipe) => (
             <div key={recipe.id} className="overflow-visible">
               <RecipeCard recipe={recipe} onClick={onRecipeClick} />
             </div>
@@ -52,7 +56,7 @@ export default function RecipeList({ recipes, onRecipeClick }: RecipeListProps) 
           </div>
 
           <CarouselContent>
-            {recipes.map((recipe) => (
+            {recipesList.map((recipe) => (
               <CarouselItem
                 key={recipe.id}
                 className="pl-4 md:basis-1/2 lg:basis-1/3 mb-6 overflow-visible"
