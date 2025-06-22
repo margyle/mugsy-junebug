@@ -14,7 +14,7 @@ interface RecipeListProps {
 }
 
 export default function RecipeList({ onRecipeClick }: RecipeListProps) {
-  const { data: recipesList = [], isLoading, isError, error } = useGetAllRecipes();
+  const { data: recipesList = [], isLoading } = useGetAllRecipes();
 
   if (isLoading) return <div className="py-8 text-center">Loading recipes</div>;
 

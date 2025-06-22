@@ -1,14 +1,3 @@
-export interface Recipe2 {
-  id: string;
-  title: string;
-  description: string;
-  brewTime: number; // in minutes
-  servings: number;
-  strength: 'Light' | 'Medium' | 'Dark';
-  imageUrl?: string;
-  tags: string[];
-}
-
 export interface Recipe {
   id: string;
   created_by: string;
