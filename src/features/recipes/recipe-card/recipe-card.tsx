@@ -54,14 +54,14 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
           >
             Light
           </div>
-          {recipe.tags.slice(1, 3).map((tag) => (
+          {/* {recipe.tags.slice(1, 3).map((tag) => (
             <span
               key={tag.id}
               className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md"
             >
               {tag.name}
             </span>
-          ))}
+          ))} */}
         </div>
 
         <Separator className="my-2 w-full" />
