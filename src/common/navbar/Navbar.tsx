@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -14,10 +14,31 @@ import { Smile, Settings, Bell } from 'lucide-react';
 import { useTheme } from '@/contexts/theme-provider/theme-provider';
 import { themes } from '@/common/themeSwitcher/themesList';
 import { useNavbarTitle } from '@/hooks/useNavbarTitle';
+import { authClient, useSession } from '@/lib/auth-client';
+import { toast } from 'sonner';
 
 export default function Navbar() {
   const { setTheme } = useTheme();
   const { appName, view } = useNavbarTitle();
+  const { data: session } = useSession();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      console.log('Starting logout process...');
+      console.log('Current session:', session);
+
+      await authClient.signOut();
+
+      console.log('Logout successful, redirecting...');
+      toast.success('Logged out successfully');
+      navigate({ to: '/login', search: { mobile: undefined } });
+    } catch (error) {
+      console.error('Logout exception:', error);
+      toast.error('Failed to logout');
+    }
+  };
+
   console.log(location);
 
   return (
@@ -48,7 +69,18 @@ export default function Navbar() {
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Help</DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+
+              {/* Show logout if user is logged in, login if not */}
+              {session?.user ? (
+                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem>
+                  <Link to="/login" search={{ mobile: undefined }}>
+                    Login
+                  </Link>
+                </DropdownMenuItem>
+              )}
+
               <DropdownMenuSeparator />
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Examples</DropdownMenuSubTrigger>

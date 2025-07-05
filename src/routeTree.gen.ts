@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as RecipesIndexImport } from './routes/recipes/index'
+import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as CatsIndexImport } from './routes/cats/index'
 import { Route as ExamplesTanstackQueryImport } from './routes/examples/tanstack-query'
 import { Route as ExamplesTableImport } from './routes/examples/table'
@@ -30,6 +31,12 @@ const IndexRoute = IndexImport.update({
 const RecipesIndexRoute = RecipesIndexImport.update({
   id: '/recipes/',
   path: '/recipes/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginIndexRoute = LoginIndexImport.update({
+  id: '/login/',
+  path: '/login/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -109,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatsIndexImport
       parentRoute: typeof rootRoute
     }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/recipes/': {
       id: '/recipes/'
       path: '/recipes'
@@ -128,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/examples/table': typeof ExamplesTableRoute
   '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
   '/cats': typeof CatsIndexRoute
+  '/login': typeof LoginIndexRoute
   '/recipes': typeof RecipesIndexRoute
 }
 
@@ -138,6 +153,7 @@ export interface FileRoutesByTo {
   '/examples/table': typeof ExamplesTableRoute
   '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
   '/cats': typeof CatsIndexRoute
+  '/login': typeof LoginIndexRoute
   '/recipes': typeof RecipesIndexRoute
 }
 
@@ -149,6 +165,7 @@ export interface FileRoutesById {
   '/examples/table': typeof ExamplesTableRoute
   '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
   '/cats/': typeof CatsIndexRoute
+  '/login/': typeof LoginIndexRoute
   '/recipes/': typeof RecipesIndexRoute
 }
 
@@ -161,6 +178,7 @@ export interface FileRouteTypes {
     | '/examples/table'
     | '/examples/tanstack-query'
     | '/cats'
+    | '/login'
     | '/recipes'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -170,6 +188,7 @@ export interface FileRouteTypes {
     | '/examples/table'
     | '/examples/tanstack-query'
     | '/cats'
+    | '/login'
     | '/recipes'
   id:
     | '__root__'
@@ -179,6 +198,7 @@ export interface FileRouteTypes {
     | '/examples/table'
     | '/examples/tanstack-query'
     | '/cats/'
+    | '/login/'
     | '/recipes/'
   fileRoutesById: FileRoutesById
 }
@@ -190,6 +210,7 @@ export interface RootRouteChildren {
   ExamplesTableRoute: typeof ExamplesTableRoute
   ExamplesTanstackQueryRoute: typeof ExamplesTanstackQueryRoute
   CatsIndexRoute: typeof CatsIndexRoute
+  LoginIndexRoute: typeof LoginIndexRoute
   RecipesIndexRoute: typeof RecipesIndexRoute
 }
 
@@ -200,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExamplesTableRoute: ExamplesTableRoute,
   ExamplesTanstackQueryRoute: ExamplesTanstackQueryRoute,
   CatsIndexRoute: CatsIndexRoute,
+  LoginIndexRoute: LoginIndexRoute,
   RecipesIndexRoute: RecipesIndexRoute,
 }
 
@@ -219,6 +241,7 @@ export const routeTree = rootRoute
         "/examples/table",
         "/examples/tanstack-query",
         "/cats/",
+        "/login/",
         "/recipes/"
       ]
     },
@@ -239,6 +262,9 @@ export const routeTree = rootRoute
     },
     "/cats/": {
       "filePath": "cats/index.tsx"
+    },
+    "/login/": {
+      "filePath": "login/index.tsx"
     },
     "/recipes/": {
       "filePath": "recipes/index.tsx"
