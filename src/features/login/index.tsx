@@ -80,9 +80,10 @@ export const Login = ({ isMobile }: LoginParams) => {
     }
   };
 
-  useEffect(() => {
-    if (isMobile !== true && canvasRef.current && qrCodeUrl) {
-      QRCode.toCanvas(canvasRef.current, qrCodeUrl, {
+  const canvasCallbackRef = (canvas: HTMLCanvasElement | null) => {
+    if (canvas && isMobile !== true && qrCodeUrl) {
+      canvasRef.current = canvas; // Still keep the ref for other uses
+      QRCode.toCanvas(canvas, qrCodeUrl, {
         width: 250,
         margin: 2,
         color: {
@@ -97,7 +98,7 @@ export const Login = ({ isMobile }: LoginParams) => {
           console.error('Error generating QR code:', error);
         });
     }
-  });
+  };
 
   // Show loading state while checking session
   if (isSessionLoading) {
@@ -176,7 +177,7 @@ export const Login = ({ isMobile }: LoginParams) => {
             <CardContent>
               <div className="flex gap-8 items-start">
                 <div className="flex flex-col items-center space-y-4 flex-shrink-0 shadow-lg">
-                  <canvas ref={canvasRef} className="border rounded" />
+                  <canvas ref={canvasCallbackRef} className="border rounded" />
                 </div>
 
                 <Separator orientation="vertical" className="h-64" />
