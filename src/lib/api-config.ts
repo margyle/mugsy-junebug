@@ -1,9 +1,7 @@
 import axios, { type AxiosError, type AxiosRequestConfig } from 'axios';
 
-// API configuration
 export const API_BASE_URL = import.meta.env.VITE_DECAF_API_BASE_URL;
 
-// Minimal setup - just withCredentials for auth + error handling
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -11,7 +9,7 @@ const axiosInstance = axios.create({
     Accept: 'application/json',
   },
   timeout: 10000,
-  withCredentials: true, // Better Auth handles session cookies automatically
+  withCredentials: true, // Better Auth creds
 });
 
 axiosInstance.interceptors.response.use(

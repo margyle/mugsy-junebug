@@ -23,33 +23,17 @@ export default function Navbar() {
   const { data: session } = useSession();
   const navigate = useNavigate();
 
-  // Log user info when available
-  if (session?.user) {
-    console.log('Logged in user:', {
-      id: session.user.id,
-      name: session.user.name,
-      email: session.user.email,
-      emailVerified: session.user.emailVerified,
-    });
-  }
-
   const handleLogout = async () => {
     try {
-      console.log('Starting logout process...');
-      console.log('Current user:', session?.user?.name || 'No user');
-
       await authClient.signOut();
-
-      console.log('Logout successful, redirecting...');
       toast.success('Logged out successfully');
       navigate({ to: '/login', search: { mobile: undefined } });
     } catch (error) {
-      console.error('Logout exception:', error);
+      void error;
+      // TODO: send error to logger
       toast.error('Failed to logout');
     }
   };
-
-  console.log(location);
 
   return (
     <nav className="w-full bg-background/98">
