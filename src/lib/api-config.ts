@@ -1,79 +1,29 @@
-import axios, {
-  type AxiosError,
-  type AxiosRequestConfig,
-  type AxiosResponse,
-  type InternalAxiosRequestConfig,
-} from 'axios';
+import axios, { type AxiosError, type AxiosRequestConfig } from 'axios';
 
 // API configuration
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+export const API_BASE_URL = import.meta.env.VITE_DECAF_API_BASE_URL;
 
-//todo: temp workaround until auth and all env implemented
-const AUTH_TOKEN = import.meta.env.VITE_AUTH_TOKEN;
-
-// Debug log
-console.log('Environment variables:', {
-  AUTH_TOKEN,
-  HAS_TOKEN: !!AUTH_TOKEN,
-  ENV_VARS: import.meta.env,
-});
-
-// Create axios instance with default config
+// Minimal setup - just withCredentials for auth + error handling
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
   },
-  timeout: 10000, // 10 seconds
+  timeout: 10000,
+  withCredentials: true, // Better Auth handles session cookies automatically
 });
 
-// Add auth token if available
-if (AUTH_TOKEN) {
-  axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`;
-}
-
-// Request interceptor
-axiosInstance.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    // You can add request logging here
-    return config;
-  },
-  (error: AxiosError) => {
-    return Promise.reject(error);
-  }
-);
-
-// Response interceptor
 axiosInstance.interceptors.response.use(
-  (response: AxiosResponse) => {
-    //todo:response logging here
-    return response;
-  },
+  (response) => response,
   (error: AxiosError) => {
-    // Handle different types of errors
-    if (error.code === 'ECONNABORTED') {
-      return Promise.reject(new Error('Request timeout'));
+    if (error.response?.status === 401) {
+      return Promise.reject(new Error('Please log in again'));
     }
-
-    if (!error.response) {
-      return Promise.reject(new Error('Network error'));
+    if (error.response?.status === 403) {
+      return Promise.reject(new Error('Access denied'));
     }
-
-    // Handle specific status codes
-    switch (error.response.status) {
-      case 401:
-        // Handle unauthorized
-        return Promise.reject(new Error('Unauthorized'));
-      case 403:
-        return Promise.reject(new Error('Forbidden'));
-      case 404:
-        return Promise.reject(new Error('Not found'));
-      case 500:
-        return Promise.reject(new Error('Server error'));
-      default:
-        return Promise.reject(error);
-    }
+    return Promise.reject(error);
   }
 );
 

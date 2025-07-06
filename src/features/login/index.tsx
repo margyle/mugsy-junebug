@@ -31,8 +31,7 @@ export const Login = ({ isMobile }: LoginParams) => {
     }
   }, [session, navigate]);
 
-  //
-  const qrCodeUrl = import.meta.env.VITE_QR_CODE_URL;
+  const qrCodeUrl = import.meta.env.VITE_LOGIN_QR_CODE_URL;
 
   // Login form setup
   const {
@@ -90,7 +89,13 @@ export const Login = ({ isMobile }: LoginParams) => {
           dark: '#CB6441',
           light: '#FBF8F1',
         },
-      });
+      })
+        .then(() => {
+          console.log('QR code generated successfully');
+        })
+        .catch((error) => {
+          console.error('Error generating QR code:', error);
+        });
     }
   });
 
