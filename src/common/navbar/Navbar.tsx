@@ -23,10 +23,20 @@ export default function Navbar() {
   const { data: session } = useSession();
   const navigate = useNavigate();
 
+  // Log user info when available
+  if (session?.user) {
+    console.log('Logged in user:', {
+      id: session.user.id,
+      name: session.user.name,
+      email: session.user.email,
+      emailVerified: session.user.emailVerified,
+    });
+  }
+
   const handleLogout = async () => {
     try {
       console.log('Starting logout process...');
-      console.log('Current session:', session);
+      console.log('Current user:', session?.user?.name || 'No user');
 
       await authClient.signOut();
 
@@ -66,6 +76,16 @@ export default function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-background/95">
+              {/* User greeting in dropdown */}
+              {session?.user && (
+                <>
+                  <DropdownMenuItem disabled>
+                    <span className="text-sm font-medium">Hello, {session.user.name}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Help</DropdownMenuItem>

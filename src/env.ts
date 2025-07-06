@@ -5,6 +5,8 @@ export const env = createEnv({
   server: {
     SERVER_URL: z.string().url().optional(),
     AUTH_TOKEN: z.string(),
+    API_BASE_URL: z.string().url(),
+    QR_CODE_URL: z.string().url(),
   },
 
   /**

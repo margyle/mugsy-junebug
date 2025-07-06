@@ -6,10 +6,10 @@ import axios, {
 } from 'axios';
 
 // API configuration
-export const API_BASE_URL = 'http://localhost:3000/api/v1/';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 //todo: temp workaround until auth and all env implemented
-const AUTH_TOKEN = import.meta.env.VITE_AUTH_TOKEN || '';
+const AUTH_TOKEN = import.meta.env.VITE_AUTH_TOKEN;
 
 // Debug log
 console.log('Environment variables:', {
