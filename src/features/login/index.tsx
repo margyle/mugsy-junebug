@@ -24,13 +24,6 @@ export const Login = ({ isMobile }: LoginParams) => {
   const [authError, setAuthError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { data: session, isPending: isSessionLoading } = useSession();
-
-  useEffect(() => {
-    if (session?.user) {
-      navigate({ to: '/' });
-    }
-  }, [session, navigate]);
-
   const qrCodeUrl = import.meta.env.VITE_LOGIN_QR_CODE_URL;
 
   // Login form setup
@@ -99,6 +92,12 @@ export const Login = ({ isMobile }: LoginParams) => {
         });
     }
   };
+
+  useEffect(() => {
+    if (session?.user) {
+      navigate({ to: '/' });
+    }
+  }, [session, navigate]);
 
   // Show loading state while checking session
   if (isSessionLoading) {
@@ -177,7 +176,11 @@ export const Login = ({ isMobile }: LoginParams) => {
             <CardContent>
               <div className="flex gap-8 items-start">
                 <div className="flex flex-col items-center space-y-4 flex-shrink-0 shadow-lg">
-                  <canvas ref={canvasCallbackRef} className="border rounded" />
+                  <canvas
+                    ref={canvasCallbackRef}
+                    className="border rounded"
+                    aria-label="Login QR code"
+                  />
                 </div>
 
                 <Separator orientation="vertical" className="h-64" />
