@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -14,11 +14,26 @@ import { Smile, Settings, Bell } from 'lucide-react';
 import { useTheme } from '@/contexts/theme-provider/theme-provider';
 import { themes } from '@/common/themeSwitcher/themesList';
 import { useNavbarTitle } from '@/hooks/useNavbarTitle';
+import { authClient, useSession } from '@/lib/auth-client';
+import { toast } from 'sonner';
 
 export default function Navbar() {
   const { setTheme } = useTheme();
   const { appName, view } = useNavbarTitle();
-  console.log(location);
+  const { data: session } = useSession();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut();
+      toast.success('Logged out successfully');
+      navigate({ to: '/login', search: { mobile: undefined } });
+    } catch (error) {
+      void error;
+      // TODO: send error to logger
+      toast.error('Failed to logout');
+    }
+  };
 
   return (
     <nav className="w-full bg-background/98">
@@ -45,10 +60,31 @@ export default function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-background/95">
+              {/* User greeting in dropdown */}
+              {session?.user && (
+                <>
+                  <DropdownMenuItem disabled>
+                    <span className="text-sm font-medium">Hello, {session.user.name}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Help</DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+
+              {/* Show logout if user is logged in, login if not */}
+              {session?.user ? (
+                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem>
+                  <Link to="/login" search={{ mobile: undefined }}>
+                    Login
+                  </Link>
+                </DropdownMenuItem>
+              )}
+
               <DropdownMenuSeparator />
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Examples</DropdownMenuSubTrigger>

@@ -13,7 +13,9 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as RecipesIndexImport } from './routes/recipes/index'
+import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as CatsIndexImport } from './routes/cats/index'
+import { Route as LoginMobileImport } from './routes/login/mobile'
 import { Route as ExamplesTanstackQueryImport } from './routes/examples/tanstack-query'
 import { Route as ExamplesTableImport } from './routes/examples/table'
 import { Route as ExamplesShadcnImport } from './routes/examples/shadcn'
@@ -33,9 +35,21 @@ const RecipesIndexRoute = RecipesIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const LoginIndexRoute = LoginIndexImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const CatsIndexRoute = CatsIndexImport.update({
   id: '/cats/',
   path: '/cats/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginMobileRoute = LoginMobileImport.update({
+  id: '/login/mobile',
+  path: '/login/mobile',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -102,11 +116,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExamplesTanstackQueryImport
       parentRoute: typeof rootRoute
     }
+    '/login/mobile': {
+      id: '/login/mobile'
+      path: '/login/mobile'
+      fullPath: '/login/mobile'
+      preLoaderRoute: typeof LoginMobileImport
+      parentRoute: typeof rootRoute
+    }
     '/cats/': {
       id: '/cats/'
       path: '/cats'
       fullPath: '/cats'
       preLoaderRoute: typeof CatsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginIndexImport
       parentRoute: typeof rootRoute
     }
     '/recipes/': {
@@ -127,7 +155,9 @@ export interface FileRoutesByFullPath {
   '/examples/shadcn': typeof ExamplesShadcnRoute
   '/examples/table': typeof ExamplesTableRoute
   '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
+  '/login/mobile': typeof LoginMobileRoute
   '/cats': typeof CatsIndexRoute
+  '/login': typeof LoginIndexRoute
   '/recipes': typeof RecipesIndexRoute
 }
 
@@ -137,7 +167,9 @@ export interface FileRoutesByTo {
   '/examples/shadcn': typeof ExamplesShadcnRoute
   '/examples/table': typeof ExamplesTableRoute
   '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
+  '/login/mobile': typeof LoginMobileRoute
   '/cats': typeof CatsIndexRoute
+  '/login': typeof LoginIndexRoute
   '/recipes': typeof RecipesIndexRoute
 }
 
@@ -148,7 +180,9 @@ export interface FileRoutesById {
   '/examples/shadcn': typeof ExamplesShadcnRoute
   '/examples/table': typeof ExamplesTableRoute
   '/examples/tanstack-query': typeof ExamplesTanstackQueryRoute
+  '/login/mobile': typeof LoginMobileRoute
   '/cats/': typeof CatsIndexRoute
+  '/login/': typeof LoginIndexRoute
   '/recipes/': typeof RecipesIndexRoute
 }
 
@@ -160,7 +194,9 @@ export interface FileRouteTypes {
     | '/examples/shadcn'
     | '/examples/table'
     | '/examples/tanstack-query'
+    | '/login/mobile'
     | '/cats'
+    | '/login'
     | '/recipes'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -169,7 +205,9 @@ export interface FileRouteTypes {
     | '/examples/shadcn'
     | '/examples/table'
     | '/examples/tanstack-query'
+    | '/login/mobile'
     | '/cats'
+    | '/login'
     | '/recipes'
   id:
     | '__root__'
@@ -178,7 +216,9 @@ export interface FileRouteTypes {
     | '/examples/shadcn'
     | '/examples/table'
     | '/examples/tanstack-query'
+    | '/login/mobile'
     | '/cats/'
+    | '/login/'
     | '/recipes/'
   fileRoutesById: FileRoutesById
 }
@@ -189,7 +229,9 @@ export interface RootRouteChildren {
   ExamplesShadcnRoute: typeof ExamplesShadcnRoute
   ExamplesTableRoute: typeof ExamplesTableRoute
   ExamplesTanstackQueryRoute: typeof ExamplesTanstackQueryRoute
+  LoginMobileRoute: typeof LoginMobileRoute
   CatsIndexRoute: typeof CatsIndexRoute
+  LoginIndexRoute: typeof LoginIndexRoute
   RecipesIndexRoute: typeof RecipesIndexRoute
 }
 
@@ -199,7 +241,9 @@ const rootRouteChildren: RootRouteChildren = {
   ExamplesShadcnRoute: ExamplesShadcnRoute,
   ExamplesTableRoute: ExamplesTableRoute,
   ExamplesTanstackQueryRoute: ExamplesTanstackQueryRoute,
+  LoginMobileRoute: LoginMobileRoute,
   CatsIndexRoute: CatsIndexRoute,
+  LoginIndexRoute: LoginIndexRoute,
   RecipesIndexRoute: RecipesIndexRoute,
 }
 
@@ -218,7 +262,9 @@ export const routeTree = rootRoute
         "/examples/shadcn",
         "/examples/table",
         "/examples/tanstack-query",
+        "/login/mobile",
         "/cats/",
+        "/login/",
         "/recipes/"
       ]
     },
@@ -237,8 +283,14 @@ export const routeTree = rootRoute
     "/examples/tanstack-query": {
       "filePath": "examples/tanstack-query.tsx"
     },
+    "/login/mobile": {
+      "filePath": "login/mobile.tsx"
+    },
     "/cats/": {
       "filePath": "cats/index.tsx"
+    },
+    "/login/": {
+      "filePath": "login/index.tsx"
     },
     "/recipes/": {
       "filePath": "recipes/index.tsx"

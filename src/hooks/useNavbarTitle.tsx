@@ -24,6 +24,9 @@ export function useNavbarTitle() {
       case '/settings':
         viewName = 'settings';
         break;
+      case '/login/mobile':
+        viewName = 'login';
+        break;
       default:
         viewName = path.slice(1) || 'home';
     }
