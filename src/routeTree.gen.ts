@@ -11,8 +11,8 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as UserPreferencesImport } from './routes/user-preferences'
 import { Route as IndexImport } from './routes/index'
+import { Route as UserPreferencesIndexImport } from './routes/user-preferences/index'
 import { Route as RecipesIndexImport } from './routes/recipes/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as CatsIndexImport } from './routes/cats/index'
@@ -24,15 +24,15 @@ import { Route as ExamplesJotaiImport } from './routes/examples/jotai'
 
 // Create/Update Routes
 
-const UserPreferencesRoute = UserPreferencesImport.update({
-  id: '/user-preferences',
-  path: '/user-preferences',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UserPreferencesIndexRoute = UserPreferencesIndexImport.update({
+  id: '/user-preferences/',
+  path: '/user-preferences/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -95,13 +95,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/user-preferences': {
-      id: '/user-preferences'
-      path: '/user-preferences'
-      fullPath: '/user-preferences'
-      preLoaderRoute: typeof UserPreferencesImport
-      parentRoute: typeof rootRoute
-    }
     '/examples/jotai': {
       id: '/examples/jotai'
       path: '/examples/jotai'
@@ -158,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecipesIndexImport
       parentRoute: typeof rootRoute
     }
+    '/user-preferences/': {
+      id: '/user-preferences/'
+      path: '/user-preferences'
+      fullPath: '/user-preferences'
+      preLoaderRoute: typeof UserPreferencesIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -165,7 +165,6 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/user-preferences': typeof UserPreferencesRoute
   '/examples/jotai': typeof ExamplesJotaiRoute
   '/examples/shadcn': typeof ExamplesShadcnRoute
   '/examples/table': typeof ExamplesTableRoute
@@ -174,11 +173,11 @@ export interface FileRoutesByFullPath {
   '/cats': typeof CatsIndexRoute
   '/login': typeof LoginIndexRoute
   '/recipes': typeof RecipesIndexRoute
+  '/user-preferences': typeof UserPreferencesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/user-preferences': typeof UserPreferencesRoute
   '/examples/jotai': typeof ExamplesJotaiRoute
   '/examples/shadcn': typeof ExamplesShadcnRoute
   '/examples/table': typeof ExamplesTableRoute
@@ -187,12 +186,12 @@ export interface FileRoutesByTo {
   '/cats': typeof CatsIndexRoute
   '/login': typeof LoginIndexRoute
   '/recipes': typeof RecipesIndexRoute
+  '/user-preferences': typeof UserPreferencesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/user-preferences': typeof UserPreferencesRoute
   '/examples/jotai': typeof ExamplesJotaiRoute
   '/examples/shadcn': typeof ExamplesShadcnRoute
   '/examples/table': typeof ExamplesTableRoute
@@ -201,13 +200,13 @@ export interface FileRoutesById {
   '/cats/': typeof CatsIndexRoute
   '/login/': typeof LoginIndexRoute
   '/recipes/': typeof RecipesIndexRoute
+  '/user-preferences/': typeof UserPreferencesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/user-preferences'
     | '/examples/jotai'
     | '/examples/shadcn'
     | '/examples/table'
@@ -216,10 +215,10 @@ export interface FileRouteTypes {
     | '/cats'
     | '/login'
     | '/recipes'
+    | '/user-preferences'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/user-preferences'
     | '/examples/jotai'
     | '/examples/shadcn'
     | '/examples/table'
@@ -228,10 +227,10 @@ export interface FileRouteTypes {
     | '/cats'
     | '/login'
     | '/recipes'
+    | '/user-preferences'
   id:
     | '__root__'
     | '/'
-    | '/user-preferences'
     | '/examples/jotai'
     | '/examples/shadcn'
     | '/examples/table'
@@ -240,12 +239,12 @@ export interface FileRouteTypes {
     | '/cats/'
     | '/login/'
     | '/recipes/'
+    | '/user-preferences/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  UserPreferencesRoute: typeof UserPreferencesRoute
   ExamplesJotaiRoute: typeof ExamplesJotaiRoute
   ExamplesShadcnRoute: typeof ExamplesShadcnRoute
   ExamplesTableRoute: typeof ExamplesTableRoute
@@ -254,11 +253,11 @@ export interface RootRouteChildren {
   CatsIndexRoute: typeof CatsIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
   RecipesIndexRoute: typeof RecipesIndexRoute
+  UserPreferencesIndexRoute: typeof UserPreferencesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  UserPreferencesRoute: UserPreferencesRoute,
   ExamplesJotaiRoute: ExamplesJotaiRoute,
   ExamplesShadcnRoute: ExamplesShadcnRoute,
   ExamplesTableRoute: ExamplesTableRoute,
@@ -267,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   CatsIndexRoute: CatsIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
   RecipesIndexRoute: RecipesIndexRoute,
+  UserPreferencesIndexRoute: UserPreferencesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -280,7 +280,6 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/user-preferences",
         "/examples/jotai",
         "/examples/shadcn",
         "/examples/table",
@@ -288,14 +287,12 @@ export const routeTree = rootRoute
         "/login/mobile",
         "/cats/",
         "/login/",
-        "/recipes/"
+        "/recipes/",
+        "/user-preferences/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/user-preferences": {
-      "filePath": "user-preferences.tsx"
     },
     "/examples/jotai": {
       "filePath": "examples/jotai.tsx"
@@ -320,6 +317,9 @@ export const routeTree = rootRoute
     },
     "/recipes/": {
       "filePath": "recipes/index.tsx"
+    },
+    "/user-preferences/": {
+      "filePath": "user-preferences/index.tsx"
     }
   }
 }

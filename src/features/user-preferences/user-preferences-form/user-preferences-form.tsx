@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,9 +29,13 @@ import {
   useCreateUserPreferences,
   useUpdateUserPreferences,
 } from '../user-preferences.hooks';
-import { userPreferencesSchema, type UserPreferencesForm } from '../user-preferences.types';
+import {
+  userPreferencesSchema,
+  type UserPreferencesForm,
+  type CreateUserPreferencesInput,
+  type UpdateUserPreferencesInput,
+} from '../user-preferences.types';
 
-// Helper function to detect user's timezone
 const getUserTimezone = (): string => {
   try {
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -40,7 +44,8 @@ const getUserTimezone = (): string => {
   }
 };
 
-const defaultFormValues: UserPreferencesForm = {
+// Default form values for new users
+const getDefaultFormValues = (): UserPreferencesForm => ({
   strengthPreference: 'medium',
   defaultCupSize: 300,
   notificationsBrewed: true,
@@ -56,108 +61,107 @@ const defaultFormValues: UserPreferencesForm = {
   shareRecipes: true,
   language: 'en',
   timezone: getUserTimezone(),
-};
+});
+
+const mapPreferencesToFormData = (preferences: UserPreferencesForm): UserPreferencesForm => ({
+  strengthPreference: preferences.strengthPreference,
+  defaultCupSize: preferences.defaultCupSize,
+  notificationsBrewed: preferences.notificationsBrewed,
+  notificationsMaintenance: preferences.notificationsMaintenance,
+  notificationsErrors: preferences.notificationsErrors,
+  notificationMethod: preferences.notificationMethod,
+  smsPhoneNumber: preferences.smsPhoneNumber || '',
+  allowIntegrations: preferences.allowIntegrations,
+  cloudControlAccess: preferences.cloudControlAccess,
+  theme: preferences.theme,
+  autoBrewSchedule: preferences.autoBrewSchedule || '',
+  units: preferences.units,
+  shareRecipes: preferences.shareRecipes,
+  language: preferences.language,
+  timezone: preferences.timezone,
+});
 
 export function UserPreferencesForm() {
   const { data: preferences, isLoading, error, isSuccess } = useGetUserPreferences();
   const createMutation = useCreateUserPreferences();
   const updateMutation = useUpdateUserPreferences();
 
-  console.log('🔍 UserPreferences Debug:', {
-    preferences,
-    isLoading,
-    error,
-    isSuccess,
-    hasPreferences: !!preferences,
-  });
-
   const form = useForm<UserPreferencesForm>({
     resolver: zodResolver(userPreferencesSchema),
-    defaultValues: defaultFormValues,
+    defaultValues: getDefaultFormValues(),
   });
 
-  // Populate form with existing preferences
+  // Memoized form reset logic
+  const resetForm = useCallback(
+    (preferencesData?: UserPreferencesForm) => {
+      if (preferencesData) {
+        const formData = mapPreferencesToFormData(preferencesData);
+        form.reset(formData);
+      } else {
+        form.reset(getDefaultFormValues());
+      }
+    },
+    [form]
+  );
+
+  // Reset form when preferences data loads
   useEffect(() => {
-    console.log('🔍 useEffect triggered:', { preferences, isSuccess });
-
-    if (preferences && isSuccess) {
-      console.log('🔍 Resetting form with preferences:', preferences);
-
-      const formData = {
-        strengthPreference: preferences.strengthPreference,
-        defaultCupSize: preferences.defaultCupSize,
-        notificationsBrewed: preferences.notificationsBrewed,
-        notificationsMaintenance: preferences.notificationsMaintenance,
-        notificationsErrors: preferences.notificationsErrors,
-        notificationMethod: preferences.notificationMethod,
-        smsPhoneNumber: preferences.smsPhoneNumber || '',
-        allowIntegrations: preferences.allowIntegrations,
-        cloudControlAccess: preferences.cloudControlAccess,
-        theme: preferences.theme,
-        autoBrewSchedule: preferences.autoBrewSchedule || '',
-        units: preferences.units,
-        shareRecipes: preferences.shareRecipes,
-        language: preferences.language,
-        timezone: preferences.timezone,
-      };
-
-      console.log('🔍 Form data to reset with:', formData);
-      form.reset(formData);
-    } else if (isSuccess && !preferences) {
-      console.log('🔍 No existing preferences found, using defaults');
-      form.reset(defaultFormValues);
+    if (isSuccess) {
+      resetForm(preferences as UserPreferencesForm);
     }
-  }, [preferences, isSuccess, form]);
+  }, [isSuccess, preferences, resetForm]);
 
   const onSubmit = (data: UserPreferencesForm) => {
-    console.log('🔍 Form submitted with data:', data);
-
-    // Clean up the data - remove empty strings for optional fields
-    const cleanedData = {
+    const baseCleanedData = {
       ...data,
       smsPhoneNumber: data.smsPhoneNumber?.trim() || undefined,
       autoBrewSchedule: data.autoBrewSchedule?.trim() || undefined,
     };
 
-    console.log('🔍 Cleaned data for API:', cleanedData);
-    console.log('🔍 Has existing preferences:', !!preferences);
-
     if (preferences) {
-      console.log('🔍 Updating existing preferences');
-      updateMutation.mutate(cleanedData as any);
+      const updateData: UpdateUserPreferencesInput = baseCleanedData;
+      updateMutation.mutate(updateData);
     } else {
-      console.log('🔍 Creating new preferences');
-      createMutation.mutate(cleanedData as any);
+      const createData: CreateUserPreferencesInput = {
+        ...baseCleanedData,
+        smsPhoneNumber: baseCleanedData.smsPhoneNumber || '',
+        autoBrewSchedule: baseCleanedData.autoBrewSchedule || '',
+      };
+      createMutation.mutate(createData);
     }
   };
 
   const isSubmitting = createMutation.isPending || updateMutation.isPending;
 
-  // Create a key that changes when preferences load to force re-render
-  const formKey = preferences ? `loaded-${preferences.id}` : 'default';
-
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-8">
-        <Loader2 className="h-6 w-6 animate-spin" />
+      <div
+        className="flex items-center justify-center py-8"
+        role="status"
+        aria-label="Loading preferences"
+      >
+        <Loader2 className="h-6 w-6 animate-spin" aria-hidden="true" />
         <span className="ml-2">Loading preferences...</span>
       </div>
     );
   }
 
   if (error) {
-    console.error('🔍 Error loading preferences:', error);
+    void error;
+    console.error('Error loading preferences');
   }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* <div>
+      <div>
         <h1 className="text-3xl font-bold">User Preferences</h1>
-        <p className="text-muted-foreground">Basic</p>
-      </div> */}
+        <p className="text-muted-foreground">
+          Customize your coffee brewing experience and app settings.
+        </p>
+      </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" key={formKey}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Coffee Preferences */}
           <Card>
             <CardHeader>
@@ -172,8 +176,8 @@ export function UserPreferencesForm() {
                     <FormLabel>Strength Preference</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue />
+                        <SelectTrigger aria-label="Select coffee strength preference">
+                          <SelectValue placeholder="Select strength" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -199,11 +203,14 @@ export function UserPreferencesForm() {
                         type="number"
                         min={50}
                         max={1000}
+                        aria-describedby="cup-size-description"
                         {...field}
                         onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
                       />
                     </FormControl>
-                    <FormDescription>Default cup size in milliliters (50-1000).</FormDescription>
+                    <FormDescription id="cup-size-description">
+                      Default cup size in milliliters (50-1000).
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -218,10 +225,11 @@ export function UserPreferencesForm() {
                     <FormControl>
                       <Textarea
                         placeholder={`{"enabled": true, "time": "07:00", "days": ["monday", "tuesday", "wednesday", "thursday", "friday"]}`}
+                        aria-describedby="auto-brew-description"
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription id="auto-brew-description">
                       JSON configuration for automatic brewing schedule. Leave empty to disable.
                     </FormDescription>
                     <FormMessage />
@@ -245,8 +253,8 @@ export function UserPreferencesForm() {
                     <FormLabel>Notification Method</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue />
+                        <SelectTrigger aria-label="Select notification method">
+                          <SelectValue placeholder="Select method" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -269,9 +277,13 @@ export function UserPreferencesForm() {
                   <FormItem>
                     <FormLabel>SMS Phone Number (Optional)</FormLabel>
                     <FormControl>
-                      <Input placeholder="+1234567890" {...field} />
+                      <Input
+                        placeholder="+1234567890"
+                        aria-describedby="phone-description"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription id="phone-description">
                       Phone number for SMS notifications (E.164 format).
                     </FormDescription>
                     <FormMessage />
@@ -290,7 +302,11 @@ export function UserPreferencesForm() {
                         <FormDescription className="text-xs">When coffee is ready</FormDescription>
                       </div>
                       <FormControl>
-                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          aria-label="Enable brew complete notifications"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -306,7 +322,11 @@ export function UserPreferencesForm() {
                         <FormDescription className="text-xs">Cleaning reminders</FormDescription>
                       </div>
                       <FormControl>
-                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          aria-label="Enable maintenance notifications"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -322,7 +342,11 @@ export function UserPreferencesForm() {
                         <FormDescription className="text-xs">System issues</FormDescription>
                       </div>
                       <FormControl>
-                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          aria-label="Enable error notifications"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -346,8 +370,8 @@ export function UserPreferencesForm() {
                       <FormLabel>Theme</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue />
+                          <SelectTrigger aria-label="Select theme preference">
+                            <SelectValue placeholder="Select theme" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -370,8 +394,8 @@ export function UserPreferencesForm() {
                       <FormLabel>Units</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue />
+                          <SelectTrigger aria-label="Select units preference">
+                            <SelectValue placeholder="Select units" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -393,8 +417,8 @@ export function UserPreferencesForm() {
                       <FormLabel>Language</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue />
+                          <SelectTrigger aria-label="Select language preference">
+                            <SelectValue placeholder="Select language" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -417,9 +441,13 @@ export function UserPreferencesForm() {
                     <FormItem>
                       <FormLabel>Timezone</FormLabel>
                       <FormControl>
-                        <Input placeholder="America/New_York" {...field} />
+                        <Input
+                          placeholder="America/New_York"
+                          aria-describedby="timezone-description"
+                          {...field}
+                        />
                       </FormControl>
-                      <FormDescription>
+                      <FormDescription id="timezone-description">
                         IANA timezone name (e.g., America/New_York, Europe/London).
                       </FormDescription>
                       <FormMessage />
@@ -443,7 +471,11 @@ export function UserPreferencesForm() {
                         </FormDescription>
                       </div>
                       <FormControl>
-                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          aria-label="Allow third-party integrations"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -459,7 +491,11 @@ export function UserPreferencesForm() {
                         <FormDescription className="text-xs">Remote access</FormDescription>
                       </div>
                       <FormControl>
-                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          aria-label="Enable cloud control access"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -475,7 +511,11 @@ export function UserPreferencesForm() {
                         <FormDescription className="text-xs">Make recipes public</FormDescription>
                       </div>
                       <FormControl>
-                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          aria-label="Allow recipe sharing"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -489,12 +529,12 @@ export function UserPreferencesForm() {
             <Button type="submit" disabled={isSubmitting} className="min-w-32">
               {isSubmitting ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
                   Saving...
                 </>
               ) : (
                 <>
-                  <Save className="w-4 h-4 mr-2" />
+                  <Save className="w-4 h-4 mr-2" aria-hidden="true" />
                   Save Preferences
                 </>
               )}
