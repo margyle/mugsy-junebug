@@ -20,19 +20,24 @@ import { toast } from 'sonner';
 export default function Navbar() {
   const { setTheme } = useTheme();
   const { appName, view } = useNavbarTitle();
-  const { data: session } = useSession();
+  const { data: session, isPending } = useSession();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await authClient.signOut();
+      const result = await authClient.signOut();
+
+      if (result.error) {
+        return; // Don't redirect if server logout failed - security risk
+      }
+
       toast.success('Logged out successfully');
-      navigate({ to: '/login', search: { mobile: undefined } });
-    } catch (error) {
-      void error;
-      // TODO: send error to logger
-      toast.error('Failed to logout');
+    } catch {
+      toast.error('Logout failed - please try again');
+      return; // Don't redirect on error - security risk
     }
+
+    navigate({ to: '/login' });
   };
 
   return (
@@ -71,12 +76,20 @@ export default function Navbar() {
               )}
 
               <DropdownMenuItem>Profile</DropdownMenuItem>
+              {session?.user && (
+                <DropdownMenuItem>
+                  <Link to="/user-preferences">Preferences</Link>
+                </DropdownMenuItem>
+              )}
+
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Help</DropdownMenuItem>
 
               {/* Show logout if user is logged in, login if not */}
               {session?.user ? (
-                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout {isPending && '(loading...)'}
+                </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem>
                   <Link to="/login" search={{ mobile: undefined }}>

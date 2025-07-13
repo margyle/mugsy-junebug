@@ -27,6 +27,9 @@ export function useNavbarTitle() {
       case '/login/mobile':
         viewName = 'login';
         break;
+      case '/user-preferences':
+        viewName = 'preferences';
+        break;
       default:
         viewName = path.slice(1) || 'home';
     }

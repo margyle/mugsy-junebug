@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as UserPreferencesIndexImport } from './routes/user-preferences/index'
 import { Route as RecipesIndexImport } from './routes/recipes/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as CatsIndexImport } from './routes/cats/index'
@@ -26,6 +27,12 @@ import { Route as ExamplesJotaiImport } from './routes/examples/jotai'
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UserPreferencesIndexRoute = UserPreferencesIndexImport.update({
+  id: '/user-preferences/',
+  path: '/user-preferences/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -144,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecipesIndexImport
       parentRoute: typeof rootRoute
     }
+    '/user-preferences/': {
+      id: '/user-preferences/'
+      path: '/user-preferences'
+      fullPath: '/user-preferences'
+      preLoaderRoute: typeof UserPreferencesIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -159,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/cats': typeof CatsIndexRoute
   '/login': typeof LoginIndexRoute
   '/recipes': typeof RecipesIndexRoute
+  '/user-preferences': typeof UserPreferencesIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -171,6 +186,7 @@ export interface FileRoutesByTo {
   '/cats': typeof CatsIndexRoute
   '/login': typeof LoginIndexRoute
   '/recipes': typeof RecipesIndexRoute
+  '/user-preferences': typeof UserPreferencesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -184,6 +200,7 @@ export interface FileRoutesById {
   '/cats/': typeof CatsIndexRoute
   '/login/': typeof LoginIndexRoute
   '/recipes/': typeof RecipesIndexRoute
+  '/user-preferences/': typeof UserPreferencesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -198,6 +215,7 @@ export interface FileRouteTypes {
     | '/cats'
     | '/login'
     | '/recipes'
+    | '/user-preferences'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -209,6 +227,7 @@ export interface FileRouteTypes {
     | '/cats'
     | '/login'
     | '/recipes'
+    | '/user-preferences'
   id:
     | '__root__'
     | '/'
@@ -220,6 +239,7 @@ export interface FileRouteTypes {
     | '/cats/'
     | '/login/'
     | '/recipes/'
+    | '/user-preferences/'
   fileRoutesById: FileRoutesById
 }
 
@@ -233,6 +253,7 @@ export interface RootRouteChildren {
   CatsIndexRoute: typeof CatsIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
   RecipesIndexRoute: typeof RecipesIndexRoute
+  UserPreferencesIndexRoute: typeof UserPreferencesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -245,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   CatsIndexRoute: CatsIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
   RecipesIndexRoute: RecipesIndexRoute,
+  UserPreferencesIndexRoute: UserPreferencesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -265,7 +287,8 @@ export const routeTree = rootRoute
         "/login/mobile",
         "/cats/",
         "/login/",
-        "/recipes/"
+        "/recipes/",
+        "/user-preferences/"
       ]
     },
     "/": {
@@ -294,6 +317,9 @@ export const routeTree = rootRoute
     },
     "/recipes/": {
       "filePath": "recipes/index.tsx"
+    },
+    "/user-preferences/": {
+      "filePath": "user-preferences/index.tsx"
     }
   }
 }

@@ -48,9 +48,34 @@ export const userPreferencesSchema = z.object({
 
 export type UserPreferencesForm = z.infer<typeof userPreferencesSchema>;
 
+// Type for create mutation (requires all fields)
+export type CreateUserPreferencesInput = UserPreferencesForm;
+
+// Type for update mutation (allows partial updates but with proper typing)
+export type UpdateUserPreferencesInput = Partial<UserPreferencesForm>;
+
 // Auto brew schedule type for easier handling
 export interface AutoBrewSchedule {
   enabled: boolean;
   time: string; // HH:MM format
   days: string[]; // Array of day names
 }
+
+// Helper function to safely parse auto brew schedule
+export const parseAutoBrewSchedule = (schedule: string): AutoBrewSchedule | null => {
+  try {
+    if (!schedule || schedule.trim() === '') return null;
+    const parsed = JSON.parse(schedule);
+    if (
+      typeof parsed === 'object' &&
+      typeof parsed.enabled === 'boolean' &&
+      typeof parsed.time === 'string' &&
+      Array.isArray(parsed.days)
+    ) {
+      return parsed as AutoBrewSchedule;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+};
