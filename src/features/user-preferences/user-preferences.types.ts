@@ -22,51 +22,28 @@ export interface UserPreferences {
   updatedAt: string; // ISO 8601
 }
 
-// Improved validation schema
 export const userPreferencesSchema = z.object({
   strengthPreference: z.enum(['light', 'medium', 'strong']),
-  defaultCupSize: z.coerce
-    .number()
-    .min(50, 'Cup size must be at least 50ml')
-    .max(1000, 'Cup size cannot exceed 1000ml'),
+  defaultCupSize: z.coerce.number().min(50).max(1000),
   notificationsBrewed: z.boolean(),
   notificationsMaintenance: z.boolean(),
   notificationsErrors: z.boolean(),
   notificationMethod: z.enum(['email', 'sms', 'push', 'none']),
   smsPhoneNumber: z
     .string()
-    .regex(/^\+[1-9]\d{1,14}$/, 'Phone number must be in E.164 format (e.g., +1234567890)')
+    .regex(/^\+?[1-9]\d{1,14}$/)
     .optional()
     .or(z.literal('')),
   allowIntegrations: z.boolean(),
   cloudControlAccess: z.boolean(),
   theme: z.enum(['light', 'dark', 'auto']),
-  autoBrewSchedule: z
-    .string()
-    .refine((val) => {
-      if (!val || val.trim() === '') return true;
-      try {
-        const parsed = JSON.parse(val);
-        // Basic validation for the expected structure
-        return (
-          typeof parsed === 'object' &&
-          typeof parsed.enabled === 'boolean' &&
-          typeof parsed.time === 'string' &&
-          Array.isArray(parsed.days)
-        );
-      } catch {
-        return false;
-      }
-    }, 'Auto brew schedule must be valid JSON with enabled, time, and days fields')
-    .optional()
-    .or(z.literal('')),
+  autoBrewSchedule: z.string().optional().or(z.literal('')),
   units: z.enum(['metric', 'imperial']),
   shareRecipes: z.boolean(),
   language: z.enum(['en', 'es', 'fr', 'de']),
   timezone: z
     .string()
-    .regex(/^[A-Za-z_]+\/[A-Za-z_]+$/, 'Timezone must be in IANA format (e.g., America/New_York)')
-    .min(1, 'Timezone is required'),
+    .regex(/^[A-Za-z_]+\/[A-Za-z_]+$/, 'Timezone must be in IANA format (e.g., America/New_York)'),
 });
 
 export type UserPreferencesForm = z.infer<typeof userPreferencesSchema>;
